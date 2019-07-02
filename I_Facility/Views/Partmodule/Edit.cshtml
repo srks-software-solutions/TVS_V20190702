@@ -1,0 +1,119 @@
+﻿@model I_Facility.ServerModel.PartsModule
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="Error">
+    @if (TempData["Error"] != null)
+    {
+        <pre>
+<span style="font-family:Calibri">@TempData["Error"]</span>
+                    </pre>
+    }
+</div>
+
+<!-- page content -->
+<div class="container body">
+    <div class="main_container">
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="clearfix"></div>
+                <div class="row form-horizontal">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Edit Cell Detail</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li>
+                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                </ul>
+
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                @using (Html.BeginForm("Edit", "Partmodule", FormMethod.Post))
+                                {
+                                    <div class="modal fade" id="edit-Cell" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel"></h4>
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <h5>Edit Cell Detail</h5>
+                                                        </div>
+                                                        <div class="form-horizontal">
+                                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(model => Model.partModule.CellName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                                <div class="control-label col-md-2">
+                                                                    @*@Html.EditorFor(model => Model.partModule.CellName, new { htmlAttributes = new { @class = "form-control" } })*@
+                                                                    @Html.HiddenFor(model => model.partModule.CellName, new { @id = "CellName", @class = "form-control", @name = "CellName", style = "width:89.7%", @placeholder = "Enter Cell Name", @required = "required" })
+                                                                    @Html.TextBoxFor(model => model.partModule.CellName, new { @id = "EditCellName", @class = "form-control", @name = "CellName", style = "width:89.7%", @placeholder = "Enter Cell Name", @required = "required", @onchange = "CellChange();" })
+                                                                    @Html.ValidationMessageFor(model => Model.partModule.CellName, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(model => Model.partModule.CellDesc, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                                <div class="control-label col-md-2">
+                                                                    @*@Html.EditorFor(model => Model.partModule.CellDesc, new { htmlAttributes = new { @class = "form-control" } })*@
+                                                                    @Html.TextBoxFor(model => model.partModule.CellDesc, new { @id = "EditCellDesc", @class = "form-control", @name = "CellDesc", style = "width:89.7%", @placeholder = "Enter Cell Description", @required = "required" })
+                                                                    @Html.ValidationMessageFor(model => Model.partModule.CellDesc, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(model => Model.partModule.CelldisplayName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                                <div class="control-label col-md-2">
+                                                                    @Html.TextBoxFor(model => model.partModule.CelldisplayName, new { @id = "EditCelldisplayName", @class = "form-control", @name = "CategoryDisplayName", style = "width:89.7%", @placeholder = "Enter Cell Description", @required = "required" })
+                                                                    @Html.ValidationMessageFor(model => Model.partModule.CelldisplayName, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            @*<label>No Of Modules : </label><input type="text" id="id1" />
+                                                                <input type="button" value="Click" class="btn btn-info" onclick="addTextBox()" />*@
+                                                            @Html.LabelFor(model => Model.partModule.NoOfModel, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                            @Html.TextBoxFor(model => model.partModule.NoOfModel, new { @id = "Editid1", @class = "form-control", @name = "CategoryDisplayName", style = "width:89.7%", @placeholder = "Enter Cell Description", @required = "required" })
+                                                            @Html.ValidationMessageFor(model => Model.partModule.NoOfModel, "", new { @class = "text-danger" })
+                                                            <div id="divsection"></div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-offset-2 col-md-10">
+                                                                    <input type="submit" value="Save" class="btn btn-info" />
+                                                                    <input type="submit" value="Back" class="btn btn-info" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery-2.1.4.min.js"></script>
+<script>
+    function addTextBox(ops) {
+        var no = document.getElementById('Editid1').value;
+        for (var i = 0; i < Number(no); i++) {
+            var text = document.createElement('input'); //create input tag
+            text.type = "text"; //mention the type of input
+            text.id = "input" + " " + i; //add id to that tag
+            document.getElementById('divsection').appendChild(text); //append it
+        }
+    }
+</script>
+<script>
+    setTimeout(function () {
+        $('#Error').fadeOut('slow');
+    }, 15000); // <-- time in milliseconds
+</script>

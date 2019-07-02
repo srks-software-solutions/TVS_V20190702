@@ -1,0 +1,363 @@
+﻿@model I_Facility.ServerModel.BottelneckMachine
+
+@{
+    ViewBag.Title = "BottelNeckMachine";
+}
+
+<style>
+    .form-inline .form-control {
+        width: 100%;
+    }
+
+    .control-label {
+        text-align: right !important;
+    }
+</style>
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>BottelNeckMachine Details</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><button class="btn btn-default" id="createNew" data-toggle="modal" data-target="#create-plant" style="margin-top: 10px;"><i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;Add New</button></li>
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <table id="datatable-fixed-header" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Plant Name</th>
+                                    <th>Shop Name</th>
+                                    <th>Cell Name</th>
+                                    <th>Machine Name</th>
+                                    <th>Part No</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.BottelNeckList)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.PlantName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ShopName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CellName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.MachineName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.tblcellpart.partNo)</td>
+                                        <td>
+                                            <ul class="actionbtnn">
+
+                                                @using (Html.BeginForm("Edit", "BottelNeckMachine", FormMethod.Post))
+                                                {
+                                                    <!-- edit Modal Start -->
+                                                    <div class="modal fade" id="edit-plant" tabindex="-1" data-keyboard="false" data-backdrop="static">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" id="myModalLabel"></h4>
+                                                                    <div class="x_panel">
+                                                                        <div class="x_title">
+                                                                            <h5>BottelNeckMachine Details</h5>
+                                                                        </div>
+                                                                        <div class="x_content">
+                                                                            <form class="form-horizontal form-label-left" novalidate>
+                                                                                <div class="row row-space">
+                                                                                    <label class="col-sm-1 control-label">Plant Name</label>
+                                                                                    <div class="col-sm-3">
+                                                                                        @Html.HiddenFor(model => model.BottelNeck.Bid, new { @id = "BottelneckID", @class = "form-control", @name = "Bottelneckid", @required = "required" })
+                                                                                        @Html.HiddenFor(model => model.BottelNeck.plantID, new { @class = "form-control", @required = "required" })
+                                                                                        @Html.DropDownList("plantID", @ViewBag.plantID as SelectList, "--Select Plant--", new { @id = "EditPlant", @class = "form-control plant", @name = "Plant", @required = "required", @value = ViewData["plantID"] })
+                                                                                    </div>
+                                                                                    <label class="col-sm-1 control-label">Shop Name</label>
+                                                                                    <div class="col-sm-3">
+                                                                                        @Html.DropDownList("ShopID", null, "--Select Shop--", new { @id = "EditShop", @class = "form-control shop", @name = "dept", @required = "required", @value = ViewData["ShopID"] })
+                                                                                    </div>
+                                                                                    <label class="col-sm-1 control-label">Cell Name</label>
+                                                                                    <div class="col-sm-3">
+                                                                                        @Html.DropDownList("CellID", null, "--Select Cell--", new { @id = "EditCell", @class = "form-control cell", @name = "dept", @required = "required", @value = ViewData["CellID"] })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <label class="col-sm-1 control-label">Machine Name</label>
+                                                                                <div class="col-sm-3">
+                                                                                    @Html.DropDownList("MachineID", null, "--Select Machine--", new { @id = "EditMachine", @class = "form-control machine", @name = "Machine", @required = "required", @value = ViewData["MachineID"] })
+                                                                                </div>
+                                                                                <label class="col-sm-1 control-label">Part Number</label>
+                                                                                <div class="col-sm-3">
+                                                                                    @Html.DropDownList("Pid", null, "--Select Part--", new { @id = "EditPart", @class = "form-control part", @name = "PartNo", @required = "required", @value = ViewData["pid"] })
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="submit" id="btnSubmitEdit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Update</button>
+                                                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- edit Modal Finish -->
+
+                                                    <li class="actionbtn"><a href="@Url.Action("Edit", "BottelNeckMachine", new { id = item.Bid })" id="@(@item.Bid)" class="btn btn-round btn-info BottelneckMachine" data-title="Edit" data-toggle="modal" data-target="#edit-plant"><i class="fa fa-pencil fa_lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Edit BottelNeckMachine"></i></a></li>
+                                                }
+
+                                                <li class="actionbtn"><button class="btn btn-round btn-danger deleteItem" data-id="@item.Bid" onclick="deleteTargetName('@item.MachineName')" data-title="Edit" data-toggle="modal" data-target="#delete-plant"><i class="fa fa-trash fa-lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Delete BottelNeckMachine"></i></button></li>
+                                                <!-- Delete Modal Begin -->
+
+                                                <div class="modal fade" id="delete-plant" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                <h4 class="modal-title" id="myModalLabel"></h4>
+                                                                <div class="x_panel">
+                                                                    <div class="x_title">
+                                                                        <h5>Delete BottelNeck Machine Details</h5>
+                                                                    </div>
+                                                                    <div class="x_content">
+                                                                        <div class="alert alert-danger">
+                                                                            <span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Detail?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="alert-danger11">Machine Name:</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-danger btnContinueDelete "><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                                                                    <button type="button" class="btn btn-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        @using (Html.BeginForm("Create", "BottelNeckMachine", FormMethod.Post))
+                        {
+                            <div class="modal fade" id="create-plant" tabindex="-1" data-keyboard="false" data-backdrop="static">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel"></h4>
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <h5>BottelNeckMachine Details</h5>
+                                                </div>
+                                                <div class="x_content">
+                                                    <form class="form-horizontal form-label-left" novalidate>
+                                                        <div class="row row-space">
+                                                            <label class="col-sm-1 control-label">Plant Name</label>
+                                                            <div class="col-sm-3">
+                                                                @Html.HiddenFor(model => model.BottelNeck.plantID)
+                                                                @Html.DropDownList("plantID", null, "--Select Plant--", new { @id = "plantID", @class = "form-control plant", @name = "Plant", @required = "required", @value = ViewData["plantID"] })
+                                                            </div>
+                                                            <label class="col-sm-1 control-label">Shop Name</label>
+                                                            <div class="col-sm-3">
+                                                                @Html.DropDownList("ShopID", null, "--Select Shop--", new { @id = "ShopID", @class = "form-control shop", @name = "Shop", @required = "required", @value = ViewData["ShopID"] })
+                                                            </div>
+                                                            <label class="col-sm-1 control-label">Cell Name</label>
+                                                            <div class="col-sm-3">
+                                                                @Html.DropDownList("CellID", null, "--Select Cell--", new { @id = "CellID", @class = "form-control cell", @name = "Cell", @required = "required", @value = ViewData["CellID"] })
+                                                            </div>
+                                                        </div>
+                                                        <label class="col-sm-1 control-label">Machine Name</label>
+                                                        <div class="col-sm-3">
+                                                            @Html.DropDownList("MachineID", null, "--Select Machine--", new { @id = "MachineID", @class = "form-control machine", @name = "Machine", @required = "required", @value = ViewData["MachineID"] })
+                                                        </div>
+                                                        <label class="col-sm-1 control-label">Part Number</label>
+                                                        <div class="col-sm-3">
+                                                            @Html.DropDownList("Pid", null, "--Select Part--", new { @id = "Pid", @class = "form-control part", @name = "PartNo", @required = "required", @value = ViewData["pid"] })
+                                                        </div>
+                                                    </form>
+                                                    @Html.HiddenFor(model => model.BottelNeck.ShopID)
+                                                    @Html.HiddenFor(model => model.BottelNeck.CellID)
+                                                    @Html.HiddenFor(model => model.BottelNeck.MachineID)
+                                                    @Html.HiddenFor(model => model.BottelNeck.MachineName)
+                                                    @Html.HiddenFor(model => model.BottelNeck.cpid)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" id="btnSubmit" class="btn btn-info submitchild"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /page content -->
+<script src="~/js/jquery-2.1.4.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $("#ShopID").empty();
+        $("#ShopID").append("<option value=''> --Select Shop-- </option>");
+        $("#CellID").empty();
+        $("#CellID").append("<option value=''> --Select Cell-- </option>");
+        $("#MachineID").empty();
+        $("#MachineID").append("<option value=''> --Select Machine-- </option>");
+        $("#Pid").empty();
+        $("#Pid").append("<option value=''> --Select Part Number-- </option>");
+        $("#plantID").on("change", function (e) {
+            var PID = $(this).val();
+            $.getJSON("/BottelNeckMachine/FetchShop", { PID: PID }, function (data) {
+                $("#ShopID").empty();
+                $("#ShopID").append("<option value = ''> --Select Shop-- </option>");
+                $.each(data, function (index, item) {
+                    $("#ShopID").append("<option value = '" + item.Value + "'>" + item.Text + "</option>");
+                });
+            });
+        });
+
+        $("#ShopID").on("change", function (e) {
+            var SID = $(this).val();
+            var PID = $("#plantID").val();
+            $.getJSON("/BottelNeckMachine/FetchCell", { PID: PID, SID: SID }, function (data) {
+                $("#CellID").empty();
+                $("#CellID").append("<option value = ''> --Select Cell-- </option>");
+                $.each(data, function (index, item) {
+                    $("#CellID").append("<option value = '" + item.Value + "'>" + item.Text + "</option>");
+                });
+            });
+        });
+
+        $("#CellID").on("change", function (e) {
+            var CID = $(this).val();
+            var SID = $("#ShopID").val();
+            var PID = $("#plantID").val();
+            $.getJSON("/BottelNeckMachine/FetchMachine", { SID: SID, PID: PID, CID: CID }, function (data) {
+                $("#MachineID").empty();
+                $("#MachineID").append("<option value = ''> --Select Machine-- </option>");
+                $.each(data, function (index, item) {
+                    $("#MachineID").append("<option value = '" + item.Value + "'>" + item.Text + "</option>");
+                });
+            });
+        });
+
+        $("#CellID").on("change", function (e) {
+           // var pID = $(this).val();
+            var CID = $("#CellID").val();
+            $.getJSON("/BottelNeckMachine/FetchPartNo", { CID: CID}, function (data) {
+                $("#Pid").empty();
+                $("#Pid").append("<option value = ''> --Select Part Number-- </option>");
+                $.each(data, function (index, item) {
+                    $("#Pid").append("<option value = '" + item.Value + "'>" + item.Text + "</option>");
+                });
+            });
+        });
+    });
+</script>
+
+
+<script>
+    $(".BottelneckMachine").on("click", function (e) {
+        //$(".Cell").click();
+        e.preventDefault();
+        var BID = $(this).attr("id");
+        $.getJSON("/BottelNeckMachine/BottelnecksCategoryById", { Id: BID }, function (data) {
+            $.each(data, function (index, item) {
+                $("#BottelneckID").val(BID);
+                $("#EditPlant").val(item.PlantId);
+                $("#EditShop").val(item.DepartmentId);
+                $("#EditCell").val(item.cellID);
+                $("#EditMachine").val(item.machineid);
+                $("#EditPart").val(item.pid);
+                $("#EditPlant").on("change", function (e) {
+                    var PID = $(this).val();
+                    $.getJSON("/BottelNeckMachine/FetchShop", { PID: PID }, function (data) {
+                        $("#EditShop").empty();
+                        $("#EditShop").append("<option value = ''> --Select shop-- </option>");
+                        $.each(data, function (index, item) {
+                            $("#EditShop").append("<option value = '" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        $("#EditShop").val(item.DepartmentId);
+                    });
+                });
+
+                $("#EditShop").on("change", function (e) {
+                    var SID = $(this).val();
+                    var PID = $("#EditPlant").val();
+                    $.getJSON("/BottelNeckMachine/FetchCell", { PID: PID, SID: SID }, function (data) {
+                        $("#EditCell").empty();
+                        $("#EditCell").append("<option value = ''> --Select Cell-- </option>");
+                        $.each(data, function (index, item) {
+                            $("#EditCell").append("<option value = '" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        $("#EditCell").val(item.cellID);
+                    });
+                });
+
+                $("#EditCell").on("change", function (e) {
+                    var CID = $(this).val();
+                    var SID = $("#EditShop").val();
+                    var PID = $("#EditPlant").val();
+                    $.getJSON("/BottelNeckMachine/FetchMachine", { SID: SID, PID: PID, CID: CID }, function (data) {
+                        $("#EditMachine").empty();
+                        $("#EditMachine").append("<option value = ''> --Select Machine-- </option>");
+                        $.each(data, function (index, item) {
+                            $("#EditMachine").append("<option value = '" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        $("#EditMachine").val(item.machineid);
+                    });
+                });
+                $("#EditCell").on("change", function (e) {
+                    var CID = $(this).val();
+                    
+                    $.getJSON("/BottelNeckMachine/FetchPartNo", { CID: CID }, function (data) {
+                        $("#EditPart").empty();
+                        $("#EditPart").append("<option value = ''> --Select Part Number-- </option>");
+                        $.each(data, function (index, item) {
+                            $("#EditPart").append("<option value = '" + item.Value + "'>" + item.Text + "</option>");
+                        });
+                        $("#EditPart").val(item.machineid);
+                    });
+                });
+                //$.getJSON("/BottelNeckMachine/FetchPartNo", { SID: SID, PID: PID, CID: CID,MID: MID }, function (data) {
+                //    $("#Pid").empty();
+                //    $("#Pid").append("<option value = ''> --Select Part No.-- </option>");
+                //    $.each(data, function (index, item) {
+                //        $("#Pid").append("<option value = '" + item.Value + "'>" + item.Text + "</option>");
+                //    });
+                //});
+            });
+        });
+    });
+
+</script>
+
+<script>
+    function deleteTargetName(item_to_delete) {
+        //alert (productvariant);
+        $(".deleteTargetName").empty();
+        $(".alert-danger11").html("Maachine Name:" +
+            item_to_delete);
+    }
+    var item_to_delete;
+    $(".deleteItem").click(function (e) {
+        item_to_delete = $(this).data('id');
+        //alert(item_to_delete);
+    });
+    $('.btnContinueDelete').click(function () {
+        window.location = "/BottelNeckMachine/Delete/" + "?id=" + item_to_delete;
+    });
+</script>
+
+
+

@@ -1,0 +1,562 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DASHBOARD! | </title>
+    <!-- Bootstrap -->
+    <link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/MConnextcss/custom.css" rel="stylesheet" />
+    <link href="~/MConnextcss/swiper.min.css" rel="stylesheet" />
+
+</head>
+<body class="border-main">
+    <div class="border-submain">
+        <div class="container card">
+            <div class="card-body"></div>
+            <div class="row main-screen ">
+
+
+
+                <div id="Dashboard2" class="col-md-12 center-block">
+                    <div class="item" id="chart1">
+                        <div class="col-sm-12">
+                            <div class="dash-img-border">
+                                <div style="padding: 0 0px 0 19px;"><span class="dash-title ">Utilization Report</span></div>
+                                <div class="chartwrapper">
+                                    <div id="chartdiv" class="chartdiv"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" id="chart2">
+                        <div class="col-sm-12">
+                            <div class="dash-img-border">
+                                <div style="padding: 0 0px 0 19px;"><span class="dash-title">Spindle Load Trends</span></div>
+                                <div class="chartwrapper">
+                                    <div id="chartdiv1" class="chartdiv"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+    @*<!-- jQuery -->
+                        </div>
+        <script src="jquery/dist/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="bootstrap/dist/js/bootstrap.min.js"></script>*@
+    <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/swiper.min.js"></script>
+    @*<script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+        <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+        <script src="https://www.amcharts.com/lib/3/gauge.js"></script>
+        <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+        <script src="https://www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js"></script>*@
+    <!-- Custom Theme Scripts -->
+    <script src="~/js/moment/amcharts.js"></script>
+    <script src="~/js/moment/serial.js"></script>
+    <script src="~/js/moment/gauge.js"></script>
+    <script src="~/js/moment/light.js"></script>
+    <script src="~/js/moment/dataloader.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="~/js/moment/Dashboard.js"></script>
+    <script>
+
+    </script>
+
+    @*@<script>
+        var chart2 = AmCharts.makeChart("chartdiv2", {
+            "theme": "light",
+            "type": "gauge",
+            "marginLeft": -22,
+            "marginRight": -22,
+            "axes": [{
+                "topTextFontSize": 15,
+                "topTextYOffset": 50,
+                "axisColor": "#31d6ea",
+                "axisThickness": 1,
+                "endValue": 100,
+                "gridInside": true,
+                "inside": true,
+                "radius": "50%",
+                "valueInterval": 20,
+                "tickColor": "#67b7dc",
+                "startAngle": -90,
+                "endAngle": 90,
+                "unit": "%",
+                "bandOutlineAlpha": 0,
+                "bands": [{
+                    "color": "#0080ff",
+                    "endValue": 100,
+                    "innerRadius": "105%",
+                    "radius": "170%",
+                    "gradientRatio": [0.5, 0, -0.5],
+                    "startValue": 0
+                }, {
+                    "color": "#3cd3a3",
+                    "endValue": 0,
+                    "innerRadius": "105%",
+                    "radius": "170%",
+                    "gradientRatio": [0.5, 0, -0.5],
+                    "startValue": 0
+                }]
+            }],
+            "arrows": [{
+                "alpha": 1,
+                "innerRadius": "25%",
+                "nailRadius": 0,
+                "radius": "170%"
+            }]
+        });
+        setInterval(randomValue2, 2000);
+        // set random value
+        function randomValue2() {
+            var value = Math.round(Math.random() * 100);
+            chart2.arrows[0].setValue(value);
+            chart2.axes[0].setTopText(value + " %");
+            // adjust darker band to new value
+            chart2.axes[0].bands[1].setEndValue(value);
+        }
+        </script>
+        <script>
+        var chart3 = AmCharts.makeChart("chartdiv3", {
+            "theme": "light",
+            "type": "gauge",
+            "marginLeft": -22,
+            "marginRight": -22,
+            "axes": [{
+                "topTextFontSize": 15,
+                "topTextYOffset": 50,
+                "axisColor": "#31d6ea",
+                "axisThickness": 1,
+                "endValue": 100,
+                "gridInside": true,
+                "inside": true,
+                "radius": "50%",
+                "valueInterval": 20,
+                "tickColor": "#67b7dc",
+                "startAngle": -90,
+                "endAngle": 90,
+                "unit": "%",
+                "bandOutlineAlpha": 0,
+                "bands": [{
+                    "color": "#0080ff",
+                    "endValue": 100,
+                    "innerRadius": "105%",
+                    "radius": "170%",
+                    "gradientRatio": [0.5, 0, -0.5],
+                    "startValue": 0
+                }, {
+                    "color": "#3cd3a3",
+                    "endValue": 0,
+                    "innerRadius": "105%",
+                    "radius": "170%",
+                    "gradientRatio": [0.5, 0, -0.5],
+                    "startValue": 0
+                }]
+            }],
+            "arrows": [{
+                "alpha": 1,
+                "innerRadius": "35%",
+                "nailRadius": 0,
+                "radius": "170%"
+            }]
+        });
+        setInterval(randomValue3, 2000);
+        // set random value
+        function randomValue3() {
+            var value = Math.round(Math.random() * 100);
+            chart3.arrows[0].setValue(value);
+            chart3.axes[0].setTopText(value + " %");
+            // adjust darker band to new value
+            chart3.axes[0].bands[1].setEndValue(value);
+        }
+        </script>
+        <script>
+        var chart = AmCharts.makeChart("chartdiv4", {
+            "theme": "light",
+            "type": "gauge",
+            "marginLeft": -22,
+            "marginRight": -22,
+            "axes": [{
+                "topTextFontSize": 15,
+                "topTextYOffset": 50,
+                "axisColor": "#31d6ea",
+                "axisThickness": 1,
+                "endValue": 100,
+                "gridInside": true,
+                "inside": true,
+                "radius": "50%",
+                "valueInterval": 20,
+                "tickColor": "#67b7dc",
+                "startAngle": -90,
+                "endAngle": 90,
+                "unit": "%",
+                "bandOutlineAlpha": 0,
+                "bands": [{
+                    "color": "#0080ff",
+                    "endValue": 100,
+                    "innerRadius": "105%",
+                    "radius": "170%",
+                    "gradientRatio": [0.5, 0, -0.5],
+                    "startValue": 0
+                }, {
+                    "color": "#3cd3a3",
+                    "endValue": 0,
+                    "innerRadius": "105%",
+                    "radius": "170%",
+                    "gradientRatio": [0.5, 0, -0.5],
+                    "startValue": 0
+                }]
+            }],
+            "arrows": [{
+                "alpha": 1,
+                "innerRadius": "35%",
+                "nailRadius": 0,
+                "radius": "170%"
+            }]
+        });
+        setInterval(randomValue, 2000);
+        // set random value
+        function randomValue() {
+            var value = Math.round(Math.random() * 100);
+            chart.arrows[0].setValue(value);
+            chart.axes[0].setTopText(value + " %");
+            // adjust darker band to new value
+            chart.axes[0].bands[1].setEndValue(value);
+        }
+        </script>
+        <script>
+        var chart5 = AmCharts.makeChart("chartdiv5", {
+            "theme": "light",
+            "type": "gauge",
+            "marginLeft": -22,
+            "marginRight": -22,
+            "axes": [{
+                "topTextFontSize": 15,
+                "topTextYOffset": 50,
+                "axisColor": "#31d6ea",
+                "axisThickness": 1,
+                "endValue": 100,
+                "gridInside": true,
+                "inside": true,
+                "radius": "50%",
+                "valueInterval": 20,
+                "tickColor": "#67b7dc",
+                "startAngle": -90,
+                "endAngle": 90,
+                "unit": "%",
+                "bandOutlineAlpha": 0,
+                "bands": [{
+                    "color": "#0080ff",
+                    "endValue": 100,
+                    "innerRadius": "105%",
+                    "radius": "170%",
+                    "gradientRatio": [0.5, 0, -0.5],
+                    "startValue": 0
+                }, {
+                    "color": "#3cd3a3",
+                    "endValue": 0,
+                    "innerRadius": "105%",
+                    "radius": "170%",
+                    "gradientRatio": [0.5, 0, -0.5],
+                    "startValue": 0
+                }]
+            }],
+            "arrows": [{
+                "alpha": 1,
+                "innerRadius": "35%",
+                "nailRadius": 0,
+                "radius": "170%"
+            }]
+        });
+        setInterval(randomValue5, 2000);
+        // set random value
+        function randomValue5() {
+            var value = Math.round(Math.random() * 100);
+            chart5.arrows[0].setValue(value);
+            chart5.axes[0].setTopText(value + " %");
+            // adjust darker band to new value
+            chart5.axes[0].bands[1].setEndValue(value);
+        }
+        </script>
+        <script>
+        var chart6 = AmCharts.makeChart("chartdiv6", {
+            "type": "serial",
+            "theme": "light",
+            "marginTop": 0,
+            "marginRight": 0,
+            "dataProvider": [{
+                "year": "1950",
+                "value": -0.307
+            }, {
+                "year": "1951",
+                "value": -0.168
+            }, {
+                "year": "1952",
+                "value": -0.073
+            }, {
+                "year": "1953",
+                "value": -0.027
+            }, {
+                "year": "1954",
+                "value": -0.251
+            }, {
+                "year": "1955",
+                "value": -0.281
+            }, {
+                "year": "1956",
+                "value": -0.348
+            }, {
+                "year": "1957",
+                "value": -0.074
+            }, {
+                "year": "1958",
+                "value": -0.011
+            }, {
+                "year": "1959",
+                "value": -0.074
+            }, {
+                "year": "1960",
+                "value": -0.124
+            }, {
+                "year": "1961",
+                "value": -0.024
+            }, {
+                "year": "1962",
+                "value": -0.022
+            }, {
+                "year": "1963",
+                "value": 0
+            }, {
+                "year": "1964",
+                "value": -0.296
+            }, {
+                "year": "1965",
+                "value": -0.217
+            }, {
+                "year": "1966",
+                "value": -0.147
+            }, {
+                "year": "1967",
+                "value": -0.15
+            }, {
+                "year": "1968",
+                "value": -0.16
+            }, {
+                "year": "1969",
+                "value": -0.011
+            }, {
+                "year": "1970",
+                "value": -0.068
+            }, {
+                "year": "1971",
+                "value": -0.19
+            }, {
+                "year": "1972",
+                "value": -0.056
+            }, {
+                "year": "1973",
+                "value": 0.077
+            }, {
+                "year": "1974",
+                "value": -0.213
+            }, {
+                "year": "1975",
+                "value": -0.17
+            }, {
+                "year": "1976",
+                "value": -0.254
+            }, {
+                "year": "1977",
+                "value": 0.019
+            }, {
+                "year": "1978",
+                "value": -0.063
+            }, {
+                "year": "1979",
+                "value": 0.05
+            }, {
+                "year": "1980",
+                "value": 0.077
+            }, {
+                "year": "1981",
+                "value": 0.12
+            }, {
+                "year": "1982",
+                "value": 0.011
+            }, {
+                "year": "1983",
+                "value": 0.177
+            }, {
+                "year": "1984",
+                "value": -0.021
+            }, {
+                "year": "1985",
+                "value": -0.037
+            }, {
+                "year": "1986",
+                "value": 0.03
+            }, {
+                "year": "1987",
+                "value": 0.179
+            }, {
+                "year": "1988",
+                "value": 0.18
+            }, {
+                "year": "1989",
+                "value": 0.104
+            }, {
+                "year": "1990",
+                "value": 0.255
+            }, {
+                "year": "1991",
+                "value": 0.21
+            }, {
+                "year": "1992",
+                "value": 0.065
+            }, {
+                "year": "1993",
+                "value": 0.11
+            }, {
+                "year": "1994",
+                "value": 0.172
+            }, {
+                "year": "1995",
+                "value": 0.269
+            }, {
+                "year": "1996",
+                "value": 0.141
+            }, {
+                "year": "1997",
+                "value": 0.353
+            }, {
+                "year": "1998",
+                "value": 0.548
+            }, {
+                "year": "1999",
+                "value": 0.298
+            }, {
+                "year": "2000",
+                "value": 0.267
+            }, {
+                "year": "2001",
+                "value": 0.411
+            }, {
+                "year": "2002",
+                "value": 0.462
+            }, {
+                "year": "2003",
+                "value": 0.47
+            }, {
+                "year": "2004",
+                "value": 0.445
+            }, {
+                "year": "2005",
+                "value": 0.47
+            }],
+            "valueAxes": [{
+                "axisAlpha": 0,
+                "position": "left",
+                "guides": [{
+                    "value": 0.05,
+                    "lineAlpha": 1,
+                    "lineColor": "#880000"
+                }, {
+                    "value": -0.15,
+                    "lineAlpha": 1,
+                    "lineColor": "#880088"
+                }],
+                "axisAlpha": 0,
+                "zeroGridAlpha": 0
+            }],
+            "graphs": [{
+                "balloonText": "<div style='margin:5px; font-size:19px;'><span style='font-size:13px;'>[[category]]</span><br>[[value]]</div>",
+                "bullet": "round",
+                "bulletSize": 8,
+                "bulletBorderAlpha": 0,
+                "lineThickness": 2,
+                "negativeLineColor": "#FFC107",
+                "negativeBase": 0.05,
+                "type": "smoothedLine",
+                "valueField": "value"
+            }, {
+                "showBalloon": false,
+                "bullet": "round",
+                "bulletBorderAlpha": 0,
+                "hideBulletsCount": 50,
+                "lineColor": "transparent",
+                "negativeLineColor": "#D50000",
+                "negativeBase": -0.15,
+                "type": "smoothedLine",
+                "valueField": "value"
+            }],
+            "chartScrollbar": {
+                "graph": "g1",
+                "gridAlpha": 0,
+                "color": "#888888",
+                "scrollbarHeight": 55,
+                "backgroundAlpha": 0,
+                "selectedBackgroundAlpha": 0.1,
+                "selectedBackgroundColor": "#888888",
+                "graphFillAlpha": 0,
+                "autoGridCount": true,
+                "selectedGraphFillAlpha": 0,
+                "graphLineAlpha": 0.2,
+                "graphLineColor": "#c2c2c2",
+                "selectedGraphLineColor": "#888888",
+                "selectedGraphLineAlpha": 1
+
+            },
+            "chartCursor": {
+                "categoryBalloonDateFormat": "YYYY",
+                "cursorAlpha": 0,
+                "valueLineEnabled": false,
+                "valueLineBalloonEnabled": false,
+                "valueLineAlpha": 0.5,
+                "fullWidth": true
+            },
+            "dataDateFormat": "YYYY",
+            "categoryField": "year",
+            "categoryAxis": {
+                "minPeriod": "YYYY",
+                "parseDates": true,
+                "minorGridAlpha": 0.1,
+                "minorGridEnabled": true
+            }
+        });
+
+        chart6.addListener("rendered", zoomChart);
+        if (chart6.zoomChart) {
+            chart6.zoomChart();
+        }
+
+        function zoomChart() {
+            chart6.zoomToIndexes(Math.round(chart6.dataProvider.length * 0.4), Math.round(chart6.dataProvider.length * 0.55));
+        }
+        </script>*@
+</body>
+</html>

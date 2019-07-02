@@ -1,0 +1,233 @@
+﻿@model List<I_Facility.ServerModel.cellpartdetailsmodel>
+@{
+    ViewBag.Title = "Edit Part";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container body">
+    <div class="main_container">
+        <div class="right_col" role="main">
+            <div class="">
+
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Cell Details</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li>
+                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                @foreach (var item in Model)
+                                {
+                                    if (item.cell != null)
+                                    {
+                                        <div class="row row-space">
+                                            @Html.HiddenFor(model => item.cell.CellID, new { @id = "cellid" })
+                                            <label class="col-sm-5 control-label">Plant Name</label>
+                                            <div class="col-sm-6">
+                                                @Html.DropDownList("Plant", null, "--Select Plant--", new { @id = "PlantID", @class = "form-control ", @name = "Plant", @required = "required", @style = "aria-expanded:false;width:89.7%", @value = "@ViewData['Plant']", @readonly = "readonly" })
+
+                                                <span id="messageSpan" style="color:red"></span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-5 control-label">Shop Name</label>
+                                        <div class="col-sm-6">
+                                            @Html.DropDownList("shop", null, "--Select Shop--", new { @id = "Editdeptid", @class = "form-control", @name = "dept", @required = "required", @style = "aria-expanded:false;width:89.7%", @value = "@ViewData['shop']", @readonly = "readonly" })
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <label class="col-sm-5 control-label">Cell Name</label>
+                                        <div class="col-sm-6">
+                                            @Html.TextBoxFor(model => item.cell.CellName, new { @id = "EditCellCategory", @class = "form-control", @name = "CellName", style = "width:89.7%", @placeholder = "Enter Cell Name", @required = "required", @readonly = "readonly" })
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <label class="col-sm-5 control-label">Cell Description</label>
+                                        <div class="col-sm-6">
+
+                                            @Html.TextBoxFor(model => item.cell.CellDesc, new { @id = "EditCategoryDesc", @class = "form-control", @name = "CellDesc", style = "width:89.7%", @placeholder = "Enter Cell Description", @required = "required", @readonly = "readonly" })
+                                            @Html.HiddenFor(model => item.cell.CellDesc, new { @id = "EditCategoryDesc1" })
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <label class="col-sm-5 control-label">Cell Display Name</label>
+                                        <div class="col-sm-6">
+                                            @Html.TextBoxFor(model => item.cell.CelldisplayName, new { @id = "EditCategoryDisplayName", @class = "form-control", @name = "CategoryDisplayName", style = "width:89.7%", @placeholder = "Enter Cell Description", @required = "required", @readonly = "readonly" })
+                                            @Html.HiddenFor(model => item.cell.CelldisplayName, new { @id = "EditCategoryDisplayName1" })
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <label class="col-sm-5 control-label">Number Of Model</label>
+                                        <div class="col-sm-6">
+
+                                            @Html.TextBoxFor(model => item.cell.NoOfModel, new { @id = "EditNo_Of_Model", @class = "form-control", @name = "No Of Model", style = "width:89.7%", @placeholder = "Enter No Of Model", @required = "required", @readonly = "readonly" })
+                                            @Html.HiddenFor(model => item.cell.NoOfModel, new { @id = "EditNo_Of_Model1" })
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*@using (Html.BeginForm("EditPart", "cellpart", FormMethod.Post))
+                    {*@
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @if (Session["Message"] != null)
+                {
+                    <p style="color:red;">@Session["Message"]</p>
+                    {
+                        Session["Message"] = null;
+                    }
+                }
+                <form class="form-horizontal form-label-left" novalidate>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Parts Details</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li>
+                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                @foreach (var item in Model)
+                                {
+                                    if (item.cellpart != null)
+                                    {
+
+                                        @Html.HiddenFor(model => item.cellpart.cpID, new { @id = "cpID" })
+                                        <span id="errorMessage" style="color:red"></span>
+                                        <div class="row">
+                                            <label class="col-sm-1 control-label">Part No</label>
+                                            <div class="col-sm-3">
+
+                                                @Html.TextBoxFor(modelItem => item.cellpart.partNo, new { @id = "EditpartNo" + item.cellpart.cpID, @value = "partNo", @class = "form-control partNumber", @name = "partno", @placeholder = "Enter partNo", @required = "required", @onchange = "PartNoCheckEdit();" })
+                                                @Html.HiddenFor(model => item.cellpart.partNo, new { @id = "partNo" })
+                                            </div>
+                                            <label class="col-sm-2 control-label">Part Description</label>
+                                            <div class="col-sm-3">
+
+                                                @Html.TextBoxFor(modelItem => item.cellpart.PartDescription, new { @id = "EditPartDescription" + item.cellpart.cpID, @value = "PartDescription", @class = "form-control partdesc", @name = "PartDescription", @placeholder = "Enter PartDescription", @required = "required" })
+                                                @Html.HiddenFor(model => item.cellpart.PartDescription, new { @id = "PartDescription" })
+
+                                            </div>
+                                            @*<div class="actionbtnn">*@
+                                            <div class="col-sm-2" style="margin-top:1px;">
+                                                <button class="btn btn-danger deleteItem" data-id="@item.cellpart.cpID" onclick="deleteTargetName('@item.cellpart.partNo')" data-title="EditPart" data-toggle="modal" data-target="#delete-part"><i class="fa fa-trash fa-lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Delete Part details"></i></button>
+                                            </div>
+                                        </div>
+
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="generate-btn">
+                            <a id="" href="/cellpart/Index" type="submit" class="btn btn-new"><i class="fa fa-chevron-left" aria-hidden="true" disabled></i>&nbsp;Back</a>
+                            <a id="" href="/cellpart/Index" type="submit" class="btn btn-new float-right btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true" disabled></i>&nbsp;Update</a>
+
+                        </div>
+                    </div>
+                </form>
+                @*}*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    function deleteTargetName(productvariant) {
+        $(".deleteTargetName").empty();
+        $(".alert-danger11").html("Part Number: " +
+            productvariant);
+    }
+
+    var item_to_delete;
+    $(".deleteItem").click(function (e) {
+        var retVal = confirm("Are you sure want to delete this Detail ?");
+        if (retVal == true) {
+            var cellid = $("#cellid").val();
+            item_to_delete = $(this).data('id');
+            $.get("/cellpart/DeleteParts", { id: item_to_delete }, function (res) {
+                if (res == "success") {
+                    window.location.href = "/cellpart/EditPart?id=" + cellid;
+                }
+            });
+            return true;
+        } else {
+            return false;
+        }
+       // alert("Are you sure you want to delete this Detail?");
+        //var cellid = $("#cellid").val();
+        //item_to_delete = $(this).data('id');
+        //$.get("/cellpart/DeleteParts", { id: item_to_delete }, function (res) {
+        //    if (res == "success") {
+        //        window.location.href = "/cellpart/EditPart?id=" + cellid;
+        //    }
+        //});
+    });
+
+</script>
+
+<script>
+    $(function () {
+        $(document).on('change', ".partNumber", function (e) {
+            var id = $(this).attr('id');
+            var partno = $(this).val();
+            var arry = id.split('o');
+            cpid = arry[1];
+            $.getJSON("/cellpart/UpdateData", { id: cpid, partno: partno }, function (res) {
+
+            });
+        });
+        $(document).on('change', ".partdesc", function (e) {
+            var id = $(this).attr('id');
+            var partdesc = $(this).val();
+            var arry = id.split('n');
+            cpid = arry[1];
+            $.getJSON("/cellpart/UpdateData1", { id: cpid, partdesc: partdesc }, function (res) {
+
+            });
+        });
+    });
+</script>
+
+
+<script>
+    function PartNoCheckEdit() {
+        var partno = $("#EditpartNo").val();
+        var cpid = $("#cpID").val();
+        $.ajax({
+            type: "POST",
+            data: { 'partno': partno, 'cpid': cpid },
+            url: "/cellpart/PartNumDuplicateCheckEdit",
+            async: false,
+            success: function (data) {
+                if (data === "notok") {
+                    $("#plantErroredit").html('part already exists');
+                    $("#btnSubmitEdit").attr('disabled', 'disabled');
+                } else {
+                    $("#plantErroredit").html('');
+                    $("#btnSubmitEdit").removeAttr('disabled', 'disabled');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("", "There is some issue in network");
+            }
+        });
+    }
+</script>
+
+

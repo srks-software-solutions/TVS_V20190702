@@ -1,0 +1,164 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_OperatorLayout.cshtml";
+}
+<!-- Bootstrap -->
+<link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<h2 class="text-center">Operator entry</h2>
+
+<div class="text-center col-sm-12" id="opentry">
+    <label> Number of Operator : </label><input id="txt1" type="number" class="txtBox text-light text-border" placeholder="Enter Numeric Value" onchange="repettext()" />
+</div>
+<div class="row" id="opdet">
+    <br />
+    <div class="text-center">
+    <h1 class="text-left" style="margin-left:30px"> Enter Operator Details</h1>
+    </div>
+    <div class="table"  style="margin-left:30px">
+        <div class="row" id="opdetails">
+          
+                @*<div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Shift
+                        </label>
+
+                        <select class="form-control" tabindex="2">
+                            <option value="" selected="" disabled="">Select Shift</option>
+                            <option value="United States">Shift 1</option>
+                            <option value="United Kingdom">Shift 2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Operator ID
+                        </label>
+
+                        <input type="text" id="print" name="print" placeholder="Operator ID" class="form-control">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Production Order No.
+                        </label>
+
+                        <input type="text" id="print" name="print" placeholder="Production Order No." class="form-control">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Operation No.
+                        </label>
+
+                        <input type="text" id="print" name="print" placeholder="Operation No." class="form-control">
+                    </div>
+                </div>
+            </div>*@
+            @*<div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            FG Code
+                        </label>
+
+                        <input type="text" id="print" name="print" placeholder="FG Code" class="form-control">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Prod. Order Qty
+                        </label>
+
+                        <input type="text" id="print" name="print" placeholder="Prod. Order Qty" class="form-control">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Processed Qty
+                        </label>
+
+                        <input type="text" id="print" name="print" placeholder="Total" class="form-control">
+                    </div>
+                </div>
+            </div>*@
+        </div>
+        <br />
+        <div class="row">
+            <button type="submit" class="storetbl" style="margin-left: 30px;">Start</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery-2.1.4.min.js"></script>
+<script>
+    function repettext() {
+        $("#opdetails").html('');
+        var counter = document.getElementById("txt1").value;
+        for (i = 1; i <= counter; i++) {
+            $("#opdetails").append("<div class='row'><div class='col-sm-3'><div class='form-group col-sm-3'><label style='margin-left: 30px;' >Shift </label>  <input type='text' id='txtShift" + i + "' class='txtBoxShift' /></div> </div><div class='col-sm-3'><div class='form-group'><label  style='margin-left: 30px;'>Operator ID </label> <input type='text' id='txtOperatorID" + i + "' class='txtBoxOperatorID' required /> </div></div><div class='col-sm-3'><div class='form-group'><label> Production Order No </label> <input type='text' id='txtProductionOrderNo" + i + "' class='txtBoxProductionOrderNo' /> </div></div><div class='col-sm-3'><div class='form-group'><label style='margin-left: 30px;'> Operator No </label> <input type='text' id='txtOperatorNo" + i + "' class='txtBoxOperatorNo' required /> </div></div></div>");
+            $("#opdetails").append("<div class='row'><div class='col-sm-3'><div class='form-group'><label style='margin-left: 30px;'>Part No </label> <input type='text' id='txtBoxPartNo" + i + "' class='txtBoxPartNo' style='margin-left: 15px;' /> </div></div><div class='col-sm-3'><div class='form-group'><label>Production Order Qty</label> <input type='text' id='txtProductionOrderQty" + i + "' class='txtBoxProductionOrderQty' /> </div></div><div class='col-sm-3'><div class='form-group'><label style='margin-left: 30px;'> Process Qty </label> <input type='text' id='txtProcessQty" + i + "' class='txtBoxProcessQty' /> </div></div></div>");
+            $("#opdetails").append("<div class='row'><div class='col-sm-3'><div class='form-group'><label style='margin-left: 15px;'><label style='margin-left: 10px;'> Yield Qty &nbsp;&nbsp;</label> <input type='text' id='txtYieldQty" + i + "' class='txtBoxYieldQty' style='width: 175px;' /></div></div><div class='col-sm-3'><div class='form-group'><label style='margin-left: 30px;'>Scrap Qty </label> <input type='text' id='txtScrapQty" + i + "' class='txtBoxScrapQty' /> </div></div><div class='col-sm-3'><div class='form-group'><label style='margin-left: 30px;'> Total Qty &nbsp;&nbsp;</label> <input type='text' id='txtTotalQty" + i + "' class='txtBoxTotalQty' /> </div></div></div>");
+
+
+            //$("#opdetails").append("<div class='row'><div class='col-sm-3'><div class='form-group'><h3><label style='margin-left: 30px;'> Operator '" + i +"'</label></h3></div></div></div>");
+            //$("#opdetails").append("<div class='row'><div class='col-sm-3'><div class='form-group'><label  style='margin-left: 30px;'>Operator ID </label> <input type='text' id='txtOperatorID" + i + "' class='txtBoxOperatorID' required /> </div></div><div class='col-sm-3'><div class='form-group'><label style='margin-left: 30px;'> Operator No :</label> <input type='text' id='txtOperatorNo" + i + "' class='txtBoxOperatorNo' required /> </div></div><div class='col-sm-3'><div class='form-group'><label> Production Order No :</label> <input type='text' id='txtProductionOrderNo" + i + "' class='txtBoxProductionOrderNo' /> </div></div><div class='col-sm-3'><div class='form-group'><label style='margin-left: 50px;'>Part No :</label> <input type='text' id='txtBoxPartNo" + i + "' class='txtBoxPartNo' /> </div></div></div>");
+            //$("#opdetails").append("<div class='row'><div class='col-sm-3'><div class='form-group'><label style='margin-left: 30px;'>Scrap Qty &nbsp;&nbsp;:</label> <input type='text' id='txtScrapQty" + i + "' class='txtBoxScrapQty' /> </div></div><div class='col-sm-3'><div class='form-group'><label style='margin-left: 30px;'> Process Qty :</label> <input type='text' id='txtProcessQty" + i + "' class='txtBoxProcessQty' /> </div></div><div class='col-sm-3'><div class='form-group'><label>Production Order Qty:</label> <input type='text' id='txtProductionOrderQty" + i + "' class='txtBoxProductionOrderQty' /> </div></div><div class='col-sm-3'><div class='form-group'><label style='margin-left: 60px;'>Shift :</label> <input type='text' id='txtShift" + i + "' class='txtBoxShift' /> </div></div></div>");
+            //$("#opdetails").append("<div class='row'><div class='col-sm-3'><div class='form-group'><label style='margin-left: 30px;'> Yield Qty &nbsp;&nbsp;&nbsp;:</label> <input type='text' id='txtYieldQty" + i + "' class='txtBoxYieldQty' /></div></div><div class='col-sm-3'><div class='form-group'><label style='margin-left: 30px;'> Total Qty &nbsp;&nbsp;&nbsp;&nbsp;&nbsp :</label> <input type='text' id='txtTotalQty" + i + "' class='txtBoxTotalQty' /> </div></div></div>");
+
+
+
+            //$("#opdetails").append("<div class='det'><div class='opd'><div class='col-sm-3'><label  style='margin-left: 30px;'>Operator ID :</label> <input type='text' id='txtOperatorID" + i + "' class='txtBoxOperatorID' required /> </div>");
+            //$("#opdetails").append("<div class='col-sm-3'><label> Operator No :</label> <input type='text' id='txtOperatorNo" + i + "' class='txtBoxOperatorNo' /> </div>");
+            //$("#opdetails").append("<div class='col-sm-3'><label> Production Order No :</label> <input type='text' id='txtProductionOrderNo" + i + "' class='txtBoxProductionOrderNo' /></div> ");
+            //$("#opdetails").append("<div class='col-sm-3'><label>Part No :</label> <input type='text' id='txtBoxPartNo" + i + "' class='txtBoxPartNo' /></div>");
+            //$("#opdetails").append("<div class='col-sm-3'><label style='margin-left: 30px;'>Scrap Qty &nbsp;&nbsp;:</label> <input type='text' id='txtScrapQty" + i + "' class='txtBoxScrapQty' /> </div>");
+            //$("#opdetails").append("<div class='col-sm-3'><label> Process Qty :</label> <input type='text' id='txtProcessQty" + i + "' class='txtBoxProcessQty' /> </div> ");
+            //$("#opdetails").append("<div class='col-sm-3'><label>Production Order Qty:</label> <input type='text' id='txtProductionOrderQty" + i + "' class='txtBoxProductionOrderQty' /> </div>");
+            //$("#opdetails").append("<div class='col-sm-3'><label>Shift &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label> <input type='text' id='txtShift" + i + "' class='txtBoxShift' /> </div>");
+            //$("#opdetails").append("<div class='col-sm-6'><label style='margin-left: 30px;'> Yield Qty &nbsp;&nbsp;&nbsp;:</label> <input type='text' id='txtYieldQty" + i + "' class='txtBoxYieldQty' /> </div>");
+            //$("#opdetails").append("<div class='col-sm-6'><label> Total Qty &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</label> <input type='text' id='txtTotalQty" + i + "' class='txtBoxTotalQty' /> </div> </div>");
+            //$("#det").append("<div class='col-sm-12'><label hidden='hidden'>test</label></div>");
+            ////$("#det").append("<div class='col-sm-6'></div>");
+        }
+        $("#opdet").show();
+    }
+</script>
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.storetbl', function (e) {
+            var counter = document.getElementById("txt1").value;
+            for (i = 1; i <= counter; i++) {
+                var OperatorID = $("#txtOperatorID" + i).val();
+                var OperatorNo = $("#txtOperatorNo" + i).val();
+                var ProductionOrderNo = $("#txtProductionOrderNo" + i).val();
+                var PartNo = $("#txtBoxPartNo" + i).val();
+                var ProductionOrderQty = $("#txtProductionOrderQty" + i).val();
+                var ProcessQty = $("#txtProcessQty" + i).val();
+                var Shift = $("#txtShift" + i).val();
+                var YieldQty = $("#txtYieldQty" + i).val();
+                var ScrapQty = $("#txtScrapQty" + i).val();
+                var TotalQty = $("#txtTotalQty" + i).val();
+                if (OperatorID != "" && OperatorNo != "" && ProductionOrderNo != "" && PartNo != "" && ProductionOrderQty != "" && ProcessQty != "" && Shift != "" && YieldQty != "" && ScrapQty != "" && TotalQty != "") {
+                    $.getJSON("/OperatorEntryList/StoredataStartfun", { OperatorID: OperatorID, OperatorNo: OperatorNo, ProductionOrderNo: ProductionOrderNo, PartNo: PartNo, ProductionOrderQty: ProductionOrderQty, ProcessQty: ProcessQty, Shift: Shift, YieldQty: YieldQty, ScrapQty: ScrapQty, TotalQty: TotalQty })
+                    window.location.href = '@Url.Action("DashboardProduction", "OperatorEntryList")';
+                }
+                else {
+                    alert("Please Fill all the fields");
+                    window.location.href = '@Url.Action("Index", "OperatorEntryList")';
+                }
+            }
+
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#opdet").hide();
+    });
+</script>

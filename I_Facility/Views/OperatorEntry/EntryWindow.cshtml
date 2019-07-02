@@ -1,0 +1,815 @@
+﻿@model I_Facility.ServerModel.tblworkorderentry
+@{
+    ViewBag.Title = "Prod Details Entry";
+    Layout = "~/Views/Shared/_OperatorLayout.cshtml";
+    int abc = 1;
+    string CountReject = "";
+    string StartTime = "";
+    if (ViewBag.WOSTART != null)
+    {
+         StartTime = ViewBag.WOSTART.ToString();
+    }
+}
+
+@{
+    List<SelectListItem> DirectJobOrder = new List<SelectListItem>();
+    DirectJobOrder.Add(new SelectListItem
+    {
+        Text = "D",
+        Value = "1",
+    });
+    DirectJobOrder.Add(new SelectListItem
+    {
+        Text = "N",
+        Value = "2",
+    });
+}
+
+<div class="mp_content">
+    <h3>
+        Production Details Entry
+    </h3>
+    <div class="row">
+        <div class="text-center" id="opentry">
+            @* <label> Number of Operator </label>@Html.TextBox("OperatorNo", null, new { @class = "form-control OptText", @id = "txt1", @type = "Number", @min = 0 })*@
+            <div class="col-sm-1"><label> Number of Operator </label></div><div class="col-sm-1">
+                <input class="form-control OptText" id="txt1" name="OptText" type="number" min="0" />
+            </div>
+        </div>
+
+        <div class="text-center">
+            <div class="col-sm-2"><label> Work StartTime :</label></div>
+           
+            <div class="col-sm-2">
+                <label for="wostart">@StartTime</label>              
+            </div>
+            
+        </div>
+    </div>
+    <form class="form-horizontal form-label-left" method="post" action="/OperatorEntry/EntryWindow">
+        @if (Model == null)
+        {
+            
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Shift
+                        </label>
+                        @Html.DropDownList("ShiftID", null, "--Select Shift--", new { @id = "ShiftID", @class = "stacked-label dropdown-toggle form-control", @name = "ShiftID", @value = ViewData["ShiftID"], @Required = "required" })
+                        @*@Html.DropDownListFor(model => model.Shift, DirectJobOrder, new { @id = "Shift", @class = "form-control", @tabindex = "7", @name = "Shift", @required = "required" })
+                                            <select class="form-control" tabindex="2">
+                                <option value="" selected="" disabled="">Select Shift</option>
+                                <option value="United States">Shift 1</option>
+                                <option value="United Kingdom">Shift 2</option>
+                            </select>*@
+
+                    </div>
+                </div>
+                <div id="opdetails">
+
+                    @*<label>
+                            Operator ID
+                        </label>*@
+                    @*@Html.TextBoxFor(model => model.OperatorID, new { @id = "OperatorID", @class = "form-control", @name = "OperatorID", @placeholder = "Operator ID", @required = "required" })*@
+                    @*@Html.TextBox("OperatorID", null, new { @id = "operatorid", @class = "form-control", @placeholder = "Operator ID" })*@
+                    @*<input type="text" id="print" name="print" placeholder="Operator ID" class="form-control">*@
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Part Number
+                        </label>
+                        @Html.DropDownList("cpID", null, "--Select Part--", new { @id = "cpID", @class = "stacked-label dropdown-toggle form-control", @name = "cpID", @value = ViewData["cpID"], @Required = "required" })
+                        @*@Html.TextBoxFor(model => model.FGCode, new { @class = "form-control", @placeholder = "Part Number", @required = "required", @id = "txtBoxPartNo" })*@
+                        @*@Html.TextBox("FG Code", null, new { @id = "Part_No", @class = "form-control", @placeholder = "FG Code" })*@
+                        @*<input type="text" id="print" name="print" placeholder="FG Code" class="form-control">*@
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Yield
+                        </label>
+                        @Html.TextBoxFor(model => model.Yield_Qty, new { @id = "txtYieldQty", @class = "form-control", @name = "Yield_Qty", @value = "0", @readonly = "readonly" })
+                    </div>
+                </div>
+                @*<div class="col-sm-3">
+                        <div class="form-group">
+                            <label>
+                                Scrap
+                            </label>
+                            @Html.TextBoxFor(model => model.ScrapQty, new { @id = "txtScrapQty", @class = "form-control", @name = "ScrapQty", @placeholder = "Scrap Qty." })
+                        </div>
+                    </div>*@
+            </div>
+        }
+        else if (Model.IsStarted == 0)
+        {
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Shift
+                        </label>
+                        @Html.DropDownList("ShiftID", null, "--Select Shift--", new { @id = "ShiftID", @class = "stacked-label dropdown-toggle form-control", @name = "ShiftID", @value = ViewData["ShiftID"], @Required = "required" })
+                        @*@Html.DropDownListFor(model => model.Shift, DirectJobOrder, new { @id = "Shift", @class = "form-control", @tabindex = "7", @name = "Shift", @required = "required" })
+                                            <select class="form-control" tabindex="2">
+                                <option value="" selected="" disabled="">Select Shift</option>
+                                <option value="United States">Shift 1</option>
+                                <option value="United Kingdom">Shift 2</option>
+                            </select>*@
+                    </div>
+                </div>
+                <div id="opdetails">
+
+                    @*<label>
+                            Operator ID
+                        </label>*@
+                    @*@Html.TextBoxFor(model => model.OperatorID, new { @id = "OperatorID", @class = "form-control", @name = "OperatorID", @placeholder = "Operator ID", @required = "required" })*@
+                    @*@Html.TextBox("OperatorID", null, new { @id = "operatorid", @class = "form-control", @placeholder = "Operator ID" })*@
+                    @*<input type="text" id="print" name="print" placeholder="Operator ID" class="form-control">*@
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Part Number
+                        </label>
+                        @Html.DropDownList("cpID", null, "--Select Part--", new { @id = "cpID", @class = "stacked-label dropdown-toggle form-control", @name = "cpID", @value = ViewData["cpID"], @Required = "required" })
+                        @*@Html.TextBoxFor(model => model.FGCode, new { @class = "form-control", @placeholder = "Part Number", @required = "required", @id = "txtBoxPartNo" })*@
+                        @*@Html.TextBox("FG Code", null, new { @id = "Part_No", @class = "form-control", @placeholder = "FG Code" })*@
+                        @*<input type="text" id="print" name="print" placeholder="FG Code" class="form-control">*@
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Yield
+                        </label>
+                        @Html.TextBoxFor(model => model.Yield_Qty, new { @id = "txtYieldQty", @class = "form-control", @name = "Yield_Qty", @value = "0", @readonly = "readonly" })
+                    </div>
+                </div>
+                @*<div class="col-sm-3">
+                        <div class="form-group">
+                            <label>
+                                Scrap
+                            </label>
+                            @Html.TextBoxFor(model => model.ScrapQty, new { @id = "txtScrapQty", @class = "form-control", @name = "ScrapQty", @placeholder = "Scrap Qty." })
+                        </div>
+                    </div>*@
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Shift
+                        </label>
+                        @Html.DropDownList("ShiftID", null, "--Select Shift--", new { @id = "ShiftID", @class = "stacked-label dropdown-toggle form-control", @name = "ShiftID", @value = ViewData["ShiftID"], @Required = "required" })
+                        @*@Html.DropDownListFor(model => model.Shift, DirectJobOrder, new { @id = "Shift", @class = "form-control", @tabindex = "7", @name = "Shift", @required = "required" })
+                                            <select class="form-control" tabindex="2">
+                                <option value="" selected="" disabled="">Select Shift</option>
+                                <option value="United States">Shift 1</option>
+                                <option value="United Kingdom">Shift 2</option>
+                            </select>*@
+                    </div>
+                </div>
+                <div id="opdetails">
+
+                    @*<label>
+                            Operator ID
+                        </label>*@
+                    @*@Html.TextBoxFor(model => model.OperatorID, new { @id = "OperatorID", @class = "form-control", @name = "OperatorID", @placeholder = "Operator ID", @required = "required" })*@
+                    @*@Html.TextBox("OperatorID", null, new { @id = "operatorid", @class = "form-control", @placeholder = "Operator ID" })*@
+                    @*<input type="text" id="print" name="print" placeholder="Operator ID" class="form-control">*@
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Part Number
+                        </label>
+                        @Html.DropDownList("cpID", null, "--Select Part--", new { @id = "cpID", @class = "stacked-label dropdown-toggle form-control", @name = "cpID", @value = ViewData["cpID"], @Required = "required" })
+                        @*@Html.TextBoxFor(model => model.FGCode, new { @class = "form-control", @placeholder = "Part Number", @required = "required", @id = "txtBoxPartNo" })*@
+                        @*@Html.TextBox("FG Code", null, new { @id = "Part_No", @class = "form-control", @placeholder = "FG Code" })*@
+                        @*<input type="text" id="print" name="print" placeholder="FG Code" class="form-control">*@
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>
+                            Yield
+                        </label>
+                        @Html.TextBoxFor(model => model.Yield_Qty, new { @id = "txtYieldQty", @class = "form-control", @name = "Yield_Qty", @value = "0", @readonly = "readonly" })
+                    </div>
+                </div>
+                @*<div class="col-sm-3">
+                        <div class="form-group">
+                            <label>
+                                Scrap
+                            </label>
+                            @Html.TextBoxFor(model => model.ScrapQty, new { @id = "txtScrapQty", @class = "form-control", @name = "ScrapQty", @placeholder = "Scrap Qty." })
+                        </div>
+                    </div>*@
+            </div>
+        }
+        <div class="row">
+
+        </div>
+        <div class="row">
+            @if (Model == null)
+            {
+                <button type="submit" class="btn btn-info POStart"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Start</button>
+            }
+            else if (Model.IsStarted == 0)
+            {
+                <button type="submit" class="btn btn-info POStart"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Start</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-info POFinish"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Finish</button>
+                <button type="button" class="btn btn-info POShowHold"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Hold </button>
+                <div class="ShowHold" hidden="hidden">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>
+                                Hold Reason
+                            </label>
+                            @Html.DropDownList("HoldCodeID", (SelectList)@ViewBag.HoldReason, "--Select Hold Reason--", new { @id = "HoldCodeID", @class = "form-control", @name = "HoldCodeID" })
+                        </div>
+                        <button type="button" class="btn btn-info POHold"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Hold</button>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </form>
+
+    <div>
+        <h3>
+            Rejection Reason
+        </h3>
+
+        <table class="table table-striped jambo_table bulk_action" id="RejectData"></table>
+
+
+        @*<div class="col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div id="RejectReason">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="HRDATA"></div>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+
+</div>
+
+<script src="~/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    window.setInterval(function () {
+        getyieldqty();
+    }, 1000 * 60);
+</script>
+
+
+<script>
+    function getyieldqty() {
+        var counter = document.getElementById("txt1").value;
+        var Operator = [];
+        $.each($(".Opt .OptDet"), function () {
+            Operator.push($(this).val());
+        });
+        var PartNo = $("#cpID").val();
+        var Shift = $("#ShiftID").val();
+    var Operatorname=Operator;
+        $.post("/OperatorEntry/GetYieldQty", { PartNumber:PartNo, ShiftID:Shift,Operatorname:Operatorname  }, function (data) {
+            var msg = data;
+            if (msg != null) {
+                $('#txtYieldQty').val(msg);
+            }
+        });
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        var datat = "@ViewData["Operatorid"]";
+        var number = "@ViewData["Display"]";
+        var appopt=[];
+        if (number == 2) {
+            $("#ShiftID").attr('disabled', true);
+            $("#cpID").attr('disabled', true);
+            document.getElementById("txt1").readOnly = true;
+            appopt = datat.split(',');
+            var Count = appopt.length;
+            $("#txt1").val(Count - 1);
+            gettext();
+            for (var i = 1; i < Count; i++) {
+                $('#OperatorID' + i).val(appopt[i]);
+            }
+            $('#RejectData').show();
+      
+            GetRejectUiData();
+        }
+        else {
+            $('#RejectData').hide();
+        }
+    });
+
+</script>
+
+<script>
+    function GetRejectUiData() {
+        var Shift = $("#ShiftID").val();
+
+        $('#RejectData').html('');
+        $.getJSON("/OperatorEntry/RejectReasonDataPrint", { Shift }, function (result) {
+            var cssdata = '<thead style="background-color: white; color: grey;"><tr class="headings"><th></th>';
+            var cssdata1 = '';
+            var index = 0;
+            var msg = result;
+            var RGData = [];
+            var count = 0;
+            if (msg != null) {
+                for (var i = 0; i < msg.length; i++) {
+                    var Reject = msg[i];
+                    RGData = Reject.RList;
+                    var temp = 0;
+                    cssdata1 = '</tr></thead ><tbody class="pmsdata"><tr class="Rejectdataval">';
+                    for (var j = 0; j < RGData.length; j++) {
+                        if (count < RGData.length) {
+                            cssdata += '<th class="column-title" style="color:black;text-align: center; ">' + RGData[j].RejectReason + '</th>';
+                            index++;
+                            if (Reject.isEnable) {
+                                if (count == 0) {
+
+                                    cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '" id="R_' + j + index + '" name="r' + j + '" value=' + RGData[j].RejectVal + '></td>';
+                                    index++;
+                                }
+                                else {
+                                    cssdata1 += '<td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '"" id="R_' + j + index + '" name="r' + j + '"  value=' + RGData[j].RejectVal + '></td>';
+                                    index++;
+                                }
+                            }
+                            else {
+                                if (count == 0) {
+
+                                    cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '" id="R_' + j + index + '" name="r' + j + '" readonly="readonly" value=' + RGData[j].RejectVal + ' ></td>';
+                                    index++;
+                                }
+                                else {
+                                    cssdata1 += '<td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '"" id="R_' + j + index + '" name="r' + j + '" readonly="readonly" value=' + RGData[j].RejectVal + '></td>';
+                                    index++;
+                                }
+                            }
+                            if (count == RGData.length - 1) {
+                                cssdata += '<th style="text-align: center; ">Update</th>';
+                            }
+                            count++;
+                        }
+                        else {
+
+                            if (Reject.isEnable) {
+                                if (temp == 0) {
+                                    cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '" id="R_' + j + index + '" name="r' + j + '"  value=' + RGData[j].RejectVal + '></td>';
+                                    index++;
+                                }
+                                else {
+                                    cssdata1 += '<td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '"" id="R_' + j + index + '" name="r' + j + '"  value=' + RGData[j].RejectVal + '></td>';
+                                    index++;
+                                }
+                            }
+                            else {
+                                if (temp == 0) {
+                                    cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '" id="R_' + j + index + '" name="r' + j + '"  readonly="readonly" value=' + RGData[j].RejectVal + '></td>';
+                                    index++;
+                                }
+                                else {
+                                    cssdata1 += '<td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '"" id="R_' + j + index + '" name="r' + j + '"  readonly="readonly" value=' + RGData[j].RejectVal + '></td>';
+                                    index++;
+                                }
+                            }
+                            temp++;
+
+                        }
+
+                    }
+                    if (Reject.isEnable) {
+                        cssdata1 += '<td><button type="submit" class="btn btn-new float-right Updatebtn" id="updt' + i + '"><h1 style="display: none;">' + '</h1><i class="fa fa-floppy-o" aria-hidden="true"></i>Update</button></td></tr>';
+                    }
+                    else {
+                        cssdata1 += '<td><button type="submit" class="btn btn-new float-right Updatebtn" id="updt' + i + '" disabled><h1 style="display: none;">' + '</h1><i class="fa fa-floppy-o" aria-hidden="true"></i>Update</button></td></tr>';
+                    }
+                    cssdata += cssdata1;
+                }
+                $('#RejectData').append(cssdata + '</tbody>');
+                return false;
+
+                IsNumber("$(.txtdata)");
+            }
+        });
+    }
+</script>
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.POStart', function (e) {
+            var counter = document.getElementById("txt1").value;
+            var OptId, Operator = [];
+
+            $.each($(".Opt .OptDet"), function () {
+                Operator.push($(this).val());
+            });
+
+            var PartNo = $("#cpID").val();
+            var Shift = $("#ShiftID").val();
+            //var ScrapQty = $("#txtScrapQty").val();
+            if ( Shift != null && PartNo != null && Operator != null) {
+                $.post("/OperatorEntry/EntryWindowData", { Operator, PartNo, Shift }), function (result) {
+                    if (result == "success") {
+                        alert("Inserted");
+                        //window.location = "/OperatorEntry/EntryWindow"
+                    }
+                }
+            }
+            window.location.href = '@Url.Action("EntryWindow", "OperatorEntry")';
+            window.location.reload(true);
+            $('#RejectData').show();
+            document.getElementById("txt1").readOnly=true;
+            GetRejectUiData();
+        });
+    });
+
+</script>
+
+@*<script>
+        function GetRejectUi() {
+                var Shift = $("#ShiftID").val();
+                $('#RejectData').html('');
+                $.getJSON("/OperatorEntry/RejectReasonData", { Shift }, function (result) {
+                    var cssdata = '<thead style="background-color: white; color: grey;"><tr class="headings"><th></th>';
+                    var cssdata1 = '';
+                    var index = 0;
+                    var msg = result;
+                    var RGData = [];
+                    var count = 0;
+                    if (msg != null) {
+                        for (var i = 0; i < msg.length; i++) {
+                            var Reject = msg[i];
+                            RGData = Reject.RList;
+                            var temp = 0;
+                            cssdata1 = '</tr></thead ><tbody class="pmsdata"><tr class="Rejectdataval">';
+                            for (var j = 0; j < RGData.length; j++) {
+                                if (count < RGData.length) {
+                                    cssdata += '<th class="column-title" style="color:black;text-align: center; ">' + RGData[j].RejectReason + '</th>';
+                                    index++;
+                                    if (Reject.isEnable) {
+                                        if (count == 0) {
+
+                                            cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '" type="number"></td>';
+                                            index++;
+                                        }
+                                        else {
+                                            cssdata1 += '<td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '" type="number"></td>';
+                                            index++;
+                                        }
+                                    }
+                                    else {
+                                        if (count == 0) {
+
+                                            cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '" type="number" readonly="readonly" ></td>';
+                                            index++;
+                                        }
+                                        else {
+                                            cssdata1 += '<td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '" type="number" readonly="readonly"></td>';
+                                            index++;
+                                        }
+                                    }
+                                    if (count == RGData.length - 1) {
+                                        cssdata += '<th style="text-align: center; ">Update</th>';
+                                    }
+                                    count++;
+                                }
+                                else {
+
+                                    if (Reject.isEnable) {
+                                        if (temp == 0) {
+                                            cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '" type="number"></td>';
+                                            index++;
+                                        }
+                                        else {
+                                            cssdata1 += '<td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '" type="number"></td>';
+                                            index++;
+                                        }
+                                    }
+                                    else {
+                                        if (temp == 0) {
+                                            cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '" type="number" readonly="readonly"></td>';
+                                            index++;
+                                        }
+                                        else {
+                                            cssdata1 += '<td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '" type="number" readonly="readonly"></td>';
+                                            index++;
+                                        }
+                                    }
+                                    temp++;
+
+                                }
+
+                            }
+                            if (Reject.isEnable) {
+                                cssdata1 += '<td><button type="submit" class="btn btn-new float-right Updatebtn" id="updt' + i + '"><h1 style="display: none;">' + '</h1><i class="fa fa-floppy-o" aria-hidden="true"></i>Update</button></td></tr>';
+                            }
+                            else {
+                                cssdata1 += '<td><button type="submit" class="btn btn-new float-right Updatebtn" id="updt' + i + '" disabled><h1 style="display: none;">' + '</h1><i class="fa fa-floppy-o" aria-hidden="true"></i>Update</button></td></tr>';
+                            }
+                            cssdata += cssdata1;
+                        }
+                        $('#RejectData').append(cssdata + '</tbody>');
+                    }
+                });
+        }
+    </script>*@
+
+<script>
+    var textboxid = [];
+    var RejectionID = [];
+    $(function () {
+        $(document).on('change', '#ShiftID', function (e) {
+            var Shift = $("#ShiftID").val();
+            $('#RejectData').html('');
+            $.getJSON("/OperatorEntry/RejectReasonData", { Shift }, function (result) {
+                var cssdata = '<thead style="background-color: white; color: grey;"><tr class="headings"><th></th>';
+                var cssdata1 = '';
+                var index = 0;
+                var msg = result;
+                var RGData = [];
+                var count = 0;
+                if (msg != null) {
+                    for (var i = 0; i < msg.length; i++) {
+                        var Reject = msg[i];
+                        RGData = Reject.RList;
+                        var temp = 0;
+                        cssdata1 = '</tr></thead ><tbody class="pmsdata"><tr class="Rejectdataval">';
+                        for (var j = 0; j < RGData.length; j++) {
+                            if (count < RGData.length) {
+                                cssdata += '<th class="column-title" style="color:black; ">"' + RGData[j].RejectReason + '"</th>';
+                                index++;
+                                if (Reject.isEnable) {
+                                    if (count == 0) {
+
+                                        cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '" ></td>';
+                                        index++;
+                                    }
+                                    else {
+                                        cssdata1 += '<td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '" id="R_' + j + index + '" name="r' + j + '"></td>';
+                                        index++;
+                                    }
+                                }
+                                else {
+                                    if (count == 0) {
+
+                                        cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '"  readonly="readonly" ></td>';
+                                        index++;
+                                    }
+                                    else {
+                                        cssdata1 += '<td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '" id="R_' + j + index + '" name="r' + j + '"  readonly="readonly"></td>';
+                                        index++;
+                                    }
+                                }
+                                if (count == RGData.length - 1) {
+                                    cssdata += '<th>Update</th>';
+                                }
+                                count++;
+                            }
+                            else {
+
+                                if (Reject.isEnable) {
+                                    if (temp == 0) {
+                                        cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '" ></td>';
+                                        index++;
+                                    }
+                                    else {
+                                        cssdata1 += '<td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '" id="R_' + j + index + '" name="r' + j + '"></td>';
+                                        index++;
+                                    }
+                                }
+                                else {
+                                    if (temp == 0) {
+                                        cssdata1 += '<td style="color:black; ">' + Reject.Shifttime + '</td><td style="color:black; "><input class="form-control txtdata" id="R_' + j + index + '" name="r' + j + '"  readonly="readonly"></td>';
+                                        index++;
+                                    }
+                                    else {
+                                        cssdata1 += '<td style="color:black; "><input class="form-control txtdata Rej_' + RGData[j].RejectReasonID + '" id="R_' + j + index + '" name="r' + j + '"  readonly="readonly"></td>';
+                                        index++;
+                                    }
+                                }
+                                temp++;
+
+                            }
+
+                        }
+                        if (Reject.isEnable) {
+                            cssdata1 += '<td><button type="submit" class="btn btn-new float-right Updatebtn" id="updt' + i + '"><h1 style="display: none;">' + '</h1><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Update</button></td></tr>';
+                        }
+                        else {
+                            cssdata1 += '<td><button type="submit" class="btn btn-new float-right Updatebtn" id="updt' + i + '"><h1 style="display: none;">' + '</h1><i class="fa fa-floppy-o" aria-hidden="true" disabled></i>&nbsp;Update</button></td></tr>';
+                        }
+                        cssdata += cssdata1;
+                    }
+                    $('#RejectData').append(cssdata + '</tbody>');
+
+                    IsNumber("$(.txtdata)");
+                }
+            });
+        });
+    });
+    $(document).on('keypress', '.txtdata', function (e) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            //display error message
+            return false;
+        }
+
+    });
+    $(".txtdata").keypress(function (e) {
+        //if the letter is not digit then display error and don't type anything
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            //display error message
+            return false;
+        }
+    });
+    IsNumber("$(.txtdata)");
+    function IsNumber(textbox) {
+
+
+    }
+    $(document).on('change', '.txtdata', function (e) {
+        textboxid.push(this.id);
+        var cls = this.classList[2].split('_');
+        RejectionID.push(cls[1]);
+    });
+
+
+    $(document).on('click', '.Updatebtn', function (e) {
+        var UPID = (this.id);
+        var Shift = $("#ShiftID").val();
+        var rejectval = [];
+        var r = "";
+        var Resonid = [];
+        for (var i = 0; i < textboxid.length; i++) {
+            r = $('#' + textboxid[i]).val();
+            if (r != "") {
+                rejectval.push(r);
+            }
+            var det = $('input[name=r0]').val();
+
+        }
+
+        var ReasonID = RejectionID;
+        $.post("/OperatorEntry/StoreRejectVal", { Shift, rejectval, ReasonID }, function (result) {
+            if (result == "pass") {
+                alert("Update Success");
+                window.location.reload(true);
+            }
+        });
+    });
+
+</script>
+
+
+
+
+<script>
+    //$(".OptText").on("change", function (e) {
+    $(document).on('change', '.OptText',function (e) {
+        $('#opdetails').html('');
+        var j = 1;
+        //abc = 1;
+        var counter = document.getElementById("txt1").value;
+        for (j = 1; j <= counter; j++) {
+            $("#opdetails").append('<div class="form-group col-sm-3 Opt"><label>Operator ID '+j+'</label >@Html.TextBoxFor(model => model.OperatorID, new { @id = "OperatorID"+abc, @class = "form-control OptDet", @name = "OperatorID", @placeholder = "Operator ID", @required = "required" })</div>');
+            }
+            //$('#txtBoxYieldQty').setAttribute("readOnly", "true");
+            // getshift();
+        });
+</script>
+
+<script>
+    function gettext() {
+        var j = 1;
+        var counter = document.getElementById("txt1").value;
+        var datat = "@ViewData["Operatorid"]";
+        var appopt = [];
+        appopt = datat.split(',');
+        for (j = 0; j < counter; j++)
+        {
+            $("#opdetails").append('<div class="form-group col-sm-3 Opt"><label>Operator ID</label><input class="form-control OptDet" id="OperatorID_' + appopt[j] + '" name="OperatorID_' + appopt[j] +'" placeholder="Operator ID" required="required" type="text" value="' + appopt[j]+'" readonly></div>');
+            $('#OperatorID').val(appopt[j]);
+        }
+    }
+
+</script>
+
+<script>
+    function autoPopulateOperatorEntry() {
+        var Prod_Order_No = $("#Prod_Order_No").val();
+        var OperationNo = $("#OperationNo").val();
+        var datas = {};
+        datas.Prod_Order_No = Prod_Order_No;
+        datas.OperationNo = OperationNo;
+        $.ajax({
+            type: "POST",
+            url: "/OperatorEntry/autoPopulateOperatorEntry",
+            async: false,
+            data: datas,
+            success: function (data) {
+                var status = data;
+                var arry = status.split('#');
+                var Part_No = arry[0];
+                var orderQty = arry[1];
+                $("#Part_No").val(Part_No);
+                $("#ProdOrderQty").val(orderQty);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //if (textStatus == 'Unauthorized') {
+                //    alert('custom message. Error: ' + errorThrown);
+                //} else {
+                //    alert('custom message. Error: ' + errorThrown);
+                //}
+                //sorf = "NotConnected";
+                //toastr.warning("", "There is some issue in network");
+            }
+        });
+    }
+</script>
+
+<script>
+    $(".POFinish").on("click", function (e) {
+        e.preventDefault();
+      //  var ScrapQty = $("#txtScrapQty").val();
+        var refstatus = false;
+        //if (ScrapQty!="") {
+            $.getJSON("/OperatorEntry/FinishProdOrder", { }, function (data) {
+                if (data == true)
+                {
+                    alert("The Production Order Details was successfully finished.");
+                   window.location.href = '@Url.Action("EntryWindow", "OperatorEntry")';
+                    refstatus = true;
+                }
+                else
+                {
+                    alert("The Production Order Details didn't Save. Try again in sometime.");
+                }
+            })
+        //}
+        //else
+        //{
+        //    alert("The Total Qty + Processed Qty entered should be equal to the Production Order Qty.");
+        //}
+        return false;
+    })
+</script>
+
+<script>
+    $(".POShowHold").on("click", function (e) {
+        $(".ShowHold").show();
+        $(".POShowHold").hide();
+    })
+</script>
+
+<script>
+    $(".POHold").on("click", function (e) {
+        e.preventDefault();
+        var HoldReasonID = $("#HoldCodeID").val();
+        var refstatus = false;
+        if ( HoldReasonID!=0) {
+            $.getJSON("/OperatorEntry/HoldProdOrder", { HoldReasonID: HoldReasonID }, function (data) {
+                if (data == true)
+                {
+                    alert("The Production Order Details was successfully Hold.");
+                    window.location.href = '@Url.Action("EntryWindow", "OperatorEntry")';
+                    refstatus = true;
+                }
+                else
+                {
+                    alert("The Production Order Details didn't Save. Try again in sometime.");
+                }
+            })
+        }
+        else
+        {
+            alert("The Total Qty entered shouldn't be greater than the Production Order Qty.");
+        }
+        return false;
+    })
+</script>

@@ -1,0 +1,206 @@
+﻿@model IList<I_Facility.ServerModel.cellpartdetailsmodel>
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container body">
+    <div class="main_container">
+        <div class="right_col" role="main">
+            <div class="">
+
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Cell Details</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li>
+                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                @using (Html.BeginForm("Edit", "cellpart", FormMethod.Post))
+                                {
+                                    <form class="form-horizontal form-label-left" novalidate>
+                                        <div class="control-group" id="fields">
+                                            <div class="controls">
+                                                <div class="form">
+                                                    <div class="entry input-group col-sm-12">
+                                                        <div class="item form-group">
+                                                            @foreach (var item in Model)
+                                                            {
+                                                                if (item.cell != null)
+                                                                {
+                                                                    <div class="row row-space">
+                                                                        @Html.HiddenFor(model => item.cell.CellID, new { @id = "cellid" })
+                                                                        <label class="col-sm-5 control-label">Plant Name</label>
+                                                                        <div class="col-sm-6">
+                                                                            @Html.DropDownList("Plant", null, "--Select Plant--", new { @id = "PlantID", @class = "form-control ", @name = "Plant", @required = "required", @style = "aria-expanded:false;width:89.7%", @value = "@ViewData['Plant']" })
+
+                                                                            <span id="messageSpan" style="color:red"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row row-space">
+                                                                        <label class="col-sm-5 control-label">Shop Name</label>
+                                                                        <div class="col-sm-6">
+                                                                            @Html.DropDownList("shop", null, "--Select Shop--", new { @id = "Editdeptid", @class = "form-control", @name = "dept", @required = "required", @style = "aria-expanded:false;width:89.7%", @value = "@ViewData['shop']" })
+                                                                        </div>
+                                                                        <br />
+                                                                        <br />
+                                                                        <label class="col-sm-5 control-label">Cell Name</label>
+                                                                        <div class="col-sm-6">
+                                                                            @Html.TextBoxFor(model => item.cell.CellName, new { @id = "EditCellCategory", @class = "form-control", @name = "CellName", style = "width:89.7%", @placeholder = "Enter Cell Name", @required = "required", @onchange = "CellNameCheckEdit();", @oninput = "CellNameCheckEdit();" })
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <span id="plantErroredit" class="errorMessage"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <label class="col-sm-5 control-label">Cell Description</label>
+                                                                    <div class="col-sm-6">
+                                                                        @Html.TextBoxFor(model => item.cell.CellDesc, new { @id = "EditCategoryDesc", @class = "form-control", @name = "CellDesc", style = "width:89.7%", @placeholder = "Enter Cell Description", @required = "required" })
+                                                                        @Html.HiddenFor(model => item.cell.CellDesc, new { @id = "EditCategoryDesc1" })
+                                                                    </div>
+                                                                    <br />
+                                                                    <br />
+                                                                    <label class="col-sm-5 control-label">Cell Display Name</label>
+                                                                    <div class="col-sm-6">
+                                                                        @Html.TextBoxFor(model => item.cell.CelldisplayName, new { @id = "EditCategoryDisplayName", @class = "form-control", @name = "CategoryDisplayName", style = "width:89.7%", @placeholder = "Enter Cell Description", @required = "required" })
+                                                                        @Html.HiddenFor(model => item.cell.CelldisplayName, new { @id = "EditCategoryDisplayName1" })
+                                                                    </div>
+                                                                    <br />
+                                                                    <br />
+                                                                    <label class="col-sm-5 control-label">Number Of Model</label>
+                                                                    <div class="col-sm-6">
+                                                                        @Html.TextBoxFor(model => item.cell.NoOfModel, new { @id = "EditNo_Of_Model", @class = "form-control", @name = "No Of Model", style = "width:89.7%", @placeholder = "Enter No Of Model", @required = "required" })
+                                                                        @Html.HiddenFor(model => item.cell.NoOfModel, new { @id = "EditNo_Of_Model1" })
+                                                                    </div>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="generate-btn">
+
+                                                    <a id="" href="/cellpart/Index" type="submit" class="btn btn-new"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</a>
+                                                    <button type="submit" class="btn btn-new float-right catagorydet"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Update</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                }
+                            </div>
+                            <div class="row part" id="partid">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="x_panel">
+                                        <div class="x_title">
+                                            <h2>Parts Details</h2>
+                                            <ul class="nav navbar-right panel_toolbox">
+                                                <li>
+                                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content">
+                                            @foreach (var item in Model)
+                                            {
+                                                if (item.cellpart != null)
+                                                {
+                                                    @Html.HiddenFor(model => item.cellpart.cpID, new { @id = "cpID" })
+                                                    <label class="col-sm-new-3 control-label" readonly="readonly">Part No</label>
+                                                    <div class="col-sm-new-3">
+                                                        @Html.TextBoxFor(modelItem => item.cellpart.partNo, new { @id = "EditpartNo", @value = "partNo", @class = "form-control", @name = "partNo", @placeholder = "Enter partNo", @required = "required", @onchange = "changepartno();", @readonly = "readonly" })
+                                                        @Html.HiddenFor(model => item.cellpart.partNo, new { @id = "partNo" })
+                                                    </div>
+                                                    <label class="col-sm-new-4 control-label" readonly="readonly">Part Description</label>
+                                                    <div class="col-sm-new-3">
+                                                        @Html.TextBoxFor(modelItem => item.cellpart.PartDescription, new { @id = "EditPartDescription", @value = "PartDescription", @class = "form-control", @name = "PartDescription", @placeholder = "Enter PartDescription", @required = "required", @onchange = "changepartdesc();", @readonly = "readonly" })
+                                                        @Html.HiddenFor(model => item.cellpart.PartDescription, new { @id = "PartDescription" })
+                                                        <span id="errorMessage" style="color:red"></span>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click', ".catagorydet", function (e) {
+            var cellid = $("#cellid").val();
+            var shop = $("#Editdeptid").val();
+            var cellname = $("#EditCellCategory").val();
+            var catdesc = $("#EditCategoryDesc").val();
+            var catdispname = $("#EditCategoryDisplayName").val();
+            var Noofmodel = $("#EditNo_Of_Model").val();
+            var plant = $("#PlantID").val();
+            $.post("/cellpart/Edit", {
+                plant: plant, shop: shop, cellname: cellname, catdesc: catdesc, catdispname: catdispname,
+                Noofmodel: Noofmodel, cellid: cellid
+            }, function (msg) {
+                if (msg == "saved") {
+                    window.location.href = "/cellpart/EditPart?Id=" + cellid;
+                }
+                else if (msg == "delete") {
+                    window.location.href = "/cellpart/EditPart?Id=" + cellid;
+                }
+                else if (msg == "equal") {
+                    window.location.href = "/cellpart/Edit?id=" + cellid;
+                    alert("There is no data to update");
+                }
+            });
+            window.location.href = "/cellpart/Index";
+        });
+    });
+</script>
+
+@if (TempData["Message"] != null)
+{
+    <input type="hidden" id="Message" value="@TempData["Message"]" />
+    <script type="text/javascript">
+        $(function () {
+            var message = $("#Message").val();
+            if (message !== "") {
+                $("#errorMessage").html(message);
+
+            }
+        });
+
+    </script>
+}
+<script>
+    function CellNameCheckEdit() {
+        var cellName = $("#EditCellCategory").val();
+        var cellid = $("#cellid").val();
+        $.ajax({
+            type: "POST",
+            data: { 'cellName': cellName, 'cellid': cellid },
+            url: "/cellpart/CellNameDuplicateCheckEdit",
+            async: false,
+            success: function (data) {
+                if (data === "notok") {
+                    $("#plantErroredit").html('Plant already exists');
+                    $("#btnSubmitEdit").attr('disabled', 'disabled');
+                } else {
+                    $("#plantErroredit").html('');
+                    $("#btnSubmitEdit").removeAttr('disabled', 'disabled');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("", "There is some issue in network");
+            }
+        });
+    }
+</script>

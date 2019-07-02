@@ -1,0 +1,119 @@
+﻿@model I_Facility.ServerModel.cellpartdetailsmodel
+@{
+    ViewBag.Title = "Create Part";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var i = 0;
+    var Count = Model.cellpartliat.Count;
+    //var data = ViewBag.item;
+}
+<div class="container body">
+    <div class="main_container">
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Part Details</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li>
+                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <table id="" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>cell</th>
+                                        <th>cell description</th>
+                                        <th>cell displayname</th>
+                                        <th>no of model</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@ViewBag.item</td>
+                                        <td>@ViewBag.item1</td>
+                                        <td>@ViewBag.item2</td>
+                                        <td>@ViewBag.item3</td>
+                                    </tr>
+                            </table>
+                            @using (Html.BeginForm("CreatePart", "cellpart", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="x_content">
+                                    <form class="form-horizontal form-label-left" id="fromDiv" novalidate>
+                                        <div class="control-group" id="fields">
+                                            @for (i = 0; i < Count; i++)
+                                            {
+
+                                                <label class="col-sm-new-3 control-label">Part No</label>
+                                                <div class="col-sm-new-3">
+                                                    @Html.HiddenFor(modelItem => Model.cellpartliat[i].CellID, new { @id = "CellID" })
+                                                    @Html.HiddenFor(modelItem => Model.cellpartliat[i].cpID, new { @id = "cpID" })
+                                                    @Html.HiddenFor(modelItem => Model.cellpartliat[i].CreatedBy, new { @id = "CreatedBy" })
+                                                    @Html.HiddenFor(modelItem => Model.cellpartliat[i].CreatedOn, new { @id = "CreatedOn" })
+                                                    @Html.HiddenFor(modelItem => Model.cellpartliat[i].IsDeleted, new { @id = "IsDeleted" })
+                                                    @Html.TextBoxFor(modelItem => Model.cellpartliat[i].partNo, new { @id = "partNo", @value = "partNo", @class = "form-control", @name = "partNo", @placeholder = "Enter partNo", @required = "required", @onchange = "PartNumDuplicateCheck();", @oninput = "PartNumDuplicateCheck();" })
+
+                                                </div>
+                                                <div class="col-sm-5">
+
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <span id="plantError" class="errorMessage"></span>
+                                                </div>
+                                                <label class="col-sm-new-4 control-label">Part Description</label>
+                                                <div class="col-sm-new-3">
+                                                    @Html.TextBoxFor(modelItem => Model.cellpartliat[i].PartDescription, new { @id = "PartDescription", @value = "PartDescription", @class = "form-control", @name = "PartDescription", @placeholder = "Enter PartDescription", @required = "required" })
+
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </form>
+                                    <div class="generate-btn">
+                                        @*<a id="" href="/cellpart/Index" type="submit" class="btn btn-new"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</a>*@
+                                        <button type="submit" class="btn btn-new float-right"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Save</button>
+
+                                    </div>
+                                    <div class="actionbtnn">
+                                        <a id="" href="/cellpart/Index" type="submit" class="btn btn-new float-left" style="position:absolute;left:10px;margin-top:40px"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</a>
+
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <script>
+        function PartNumDuplicateCheck() {
+            var cellName = $("#Editcellname").val();
+            $.ajax({
+                type: "POST",
+                data: { 'cellName': cellName },
+                url: "/cellpart/PartNumDuplicateCheck",
+                async: false,
+                success: function (data) {
+                    if (data === "notok") {
+                        $("#plantError").html('Cell already exists');
+                        $("#btnSubmit").attr('disabled', 'disabled');
+                    } else {
+                        $("#plantError").html('');
+                        $("#btnSubmit").removeAttr('disabled', 'disabled');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("", "There is some issue in network");
+                }
+            });
+        }
+    </script>
+

@@ -1,0 +1,315 @@
+﻿@model I_Facility.ServerModel.ProductionLossModel
+@{
+    ViewBag.Title = "Production Loss";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+
+    List<SelectListItem> LossReason = new List<SelectListItem>();
+    LossReason.Add(new SelectListItem
+    {
+        Text = "IDLE",
+        Value = "IDLE",
+    });
+    LossReason.Add(new SelectListItem
+    {
+        Text = "Setup",
+        Value = "Setup",
+    });
+    LossReason.Add(new SelectListItem
+    {
+        Text = "BREAKDOWN",
+        Value = "BREAKDOWN",
+    });
+
+    List<SelectListItem> ContributeTo = new List<SelectListItem>();
+    ContributeTo.Add(new SelectListItem
+    {
+        Text = "ProductionLoss",
+        Value = "ProductionLoss",
+    });
+    ContributeTo.Add(new SelectListItem
+    {
+        Text = "QualityLoss",
+        Value = "QualityLoss",
+    });
+    ContributeTo.Add(new SelectListItem
+    {
+        Text = "AvailabilityLoss",
+        Value = "AvailabilityLoss",
+    });
+}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Production Loss Details</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        @using (Html.BeginForm("Create", "ProductionlossDetails", FormMethod.Post))
+                        {
+                            <div class="x_content">
+                                <div class="row row-space">
+                                    <form class="form-horizontal form-label-left" novalidate>
+                                        <div class="row row-space form-inline">
+                                            <div class="radio radio-primary col-sm-offset-4">
+                                                <input type="radio" name="radio1" id="radio1" value="option1" checked="checked">
+                                                <label for="radio1">
+                                                    Level1
+                                                </label>
+                                            </div>
+                                            <div class="radio radio-primary">
+                                                <input type="radio" name="radio1" id="radio2" value="option2">
+                                                <label for="radio2">
+                                                    Level2
+                                                </label>
+                                            </div>
+                                            <div class="radio radio-primary">
+                                                <input type="radio" name="radio1" id="radio3" value="option3">
+                                                <label for="radio3">
+                                                    Level3
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="divs">
+                                            <div id="div1">
+                                                <div class="row row-space">
+                                                    @Html.HiddenFor(model => model.ProductionLoss.LossCodeID, new { @id = "LossCodeID" })
+                                                    @Html.HiddenFor(model => model.ProductionLoss.LossCodesLevel, new { @id = "LossCodesLevel", @class = "form-control", @name = "LossCodesLevel", @Value = 1 })
+                                                    <div class="row row-space">
+                                                        <label class="col-sm-4 control-label">Loss Category</label>
+                                                        <div class="col-sm-5">
+                                                            @Html.DropDownListFor(model => model.ProductionLoss.MessageType, LossReason, "--Select LossReason--", new { @id = "MessageType", @name = "MessageType", @class = "form-control1 clearDropdown", @style = "aria-expanded:false;", @required = "required", @value = ViewData["LossReason"] })
+                                                        </div>
+                                                    </div>
+                                                    <div id="div2" class="row row-space" style="display: none;">
+                                                        <label class="col-sm-4 control-label">LossCodeLevel1</label>
+                                                        <div class="col-sm-5">
+                                                            @Html.DropDownList("Level1", null, "--Select Level1--", new { @id = "Level1", @class = "form-control1 clearDropdown", @name = "Level1", @style = "aria-expanded:false;", @value = ViewData["Level1"] })
+                                                        </div>
+                                                    </div>
+                                                    <div id="div3" class="row row-space" style="display: none;">
+                                                        <label class="col-sm-4 control-label">LossCodeLevel2</label>
+                                                        <div class="col-sm-5">
+                                                            @Html.DropDownList("Level2", null, "--Select Level2--", new { @id = "Level2", @class = "form-control1 clearDropdown", @name = "Level2", @style = "aria-expanded:false;", @value = ViewData["Level2"] })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-space">
+                                                        <label class="col-sm-4 control-label">Loss Code</label>
+                                                        <div class="col-sm-5">
+                                                            @Html.HiddenFor(model => model.ProductionLoss.LossCodesLevel, new { @id = "LossCodesLevel", @class = "form-control", @name = "LossCodesLevel", @Value = 1 })
+                                                            @Html.TextBoxFor(model => model.ProductionLoss.LossCode, new { @id = "Losscode", @class = "form-control1", @placeholder = "Loss Code", @required = "required" })
+
+                                                        </div>
+                                                    </div>
+                                                    <span id="errorMessage" style="color:red"></span>
+
+                                                    <div class="row row-space">
+                                                        <label class="col-sm-4 control-label">Loss Code Description</label>
+                                                        <div class="col-sm-5">
+                                                            @Html.TextBoxFor(model => model.ProductionLoss.LossCodeDesc, new { @class = "form-control1", @placeholder = "Loss Code Description", @required = "required" })
+                                                            @*<input type="text" class="form-control1" id="" placeholder="Loss Code Description">*@
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row row-space">
+                                                        <label class="col-sm-4 control-label">Contributes To</label>
+                                                        <div class="col-sm-5">
+                                                            @Html.DropDownListFor(model => model.ProductionLoss.ContributeTo, ContributeTo, "--Select Contributesto--", new { @id = "ContributeTo", @name = "ContributeTo", @class = "form-control1 clearDropdown", @style = "aria-expanded:false;", @required = "required", @value = ViewData["ContributeTo"] })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="generate-btn">
+                                            <a id="" href="/ProductionlossDetails/Index" type="submit" class="btn btn-new"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</a>
+                                            <button type="submit" id="btnSubmit" class="btn btn-new float-right btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Save</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- create Modal Finish -->
+<script src="~/js/jquery-2.1.4.min.js"></script>
+@if (TempData["Message"] != null)
+{
+    <input type="hidden" id="Message" value="@TempData["Message"]" />
+    <script type="text/javascript">
+        $(function () {
+            var message = $("#Message").val();
+            if (message !== "") {
+                $("#errorMessage").html(message);
+
+
+            }
+        });
+    </script>
+}
+<script type="text/javascript">
+    $(function () {
+        var $divs = $('#divs > div');
+        $divs.first().show();
+
+    });
+    $(document).ready(function () {
+        $("#radio1").prop('checked', true);
+        $("#radio2").prop('checked', false);
+        $("#radio3").prop('checked', false);
+        $("#radio2").attr('disabled', false);
+        $("#radio3").attr('disabled', true);
+
+        $('#radio1').click(function () {
+            $('#div2').hide();
+            $('#div3').hide();
+            $('#div1').show();
+            $("#LossCodesLevel").val(1);
+
+        });
+        $('#radio2').click(function () {
+            $('#div1').show();
+            $('#div3').hide();
+            $('#div2').show();
+            $("#LossCodesLevel").val(2);
+            $("#radio3").attr('disabled', false);
+        });
+        $('#radio3').click(function () {
+            $('#div1').show();
+            $('#div3').show();
+            $("#LossCodesLevel").val(3);
+            $('#div2').show();
+        });
+    });
+</script>
+<script>
+    $('#radio2').click(function () {
+        $("#Level1").empty();
+        $("#Level1").append("<option value=''> --Select Level1-- </option>");
+        $("#MessageType").on("change", function () {
+
+            var selectedID = $(this).val();
+            $.getJSON("/ProductionlossDetails/FetchLevel1", { Data: selectedID }, function (data) {
+                $("#LossCodesLevel").val(2);
+                $("#Level1").empty();
+                $("#Level1").append("<option value=''> --Select Level1-- </option>");
+                $.each(data, function (index, item) {
+                    $("#Level1").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                });
+            });
+        });
+    });
+</script>
+<script>
+    $('#radio3').click(function () {
+        $("#Level1").empty();
+        $("#Level1").append("<option value=''> --Select Level1-- </option>");
+        $("#Level2").empty();
+        $("#Level2").append("<option value=''> --Select Level2-- </option>");
+
+        $("#MessageType").on("change", function () {
+
+            var selectedID = $(this).val();
+            $.getJSON("/ProductionlossDetails/FetchLevel1", { Data: selectedID }, function (data) {
+                $("#LossCodesLevel").val(2);
+                $("#Level1").empty();
+                $("#Level1").append("<option value=''> --Select Level1-- </option>");
+                $.each(data, function (index, item) {
+                    $("#Level1").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                });
+            });
+        });
+
+        $("#Level1").on("change", function () {
+            var LevelId = $(this).val();
+            var selectedID = $("#MessageType").val();
+            $.getJSON("/ProductionlossDetails/FetchLevel2", { LevelId: LevelId, selectedID: selectedID }, function (data) {
+                $("#LossCodesLevel").val(3);
+                $("#Level2").empty();
+                $("#Level2").append("<option value=''> --Select Level2-- </option>");
+                $.each(data, function (index, item) {
+                    $("#Level2").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                });
+            });
+        });
+    });
+</script>
+<script>
+    $('#radio2').click(function () {
+        //function Level2Check() {
+        // var level1 = $("#LossCodesLevel").val();
+        var level1 = $("#LossCodesLevel").val(2);
+        $.ajax({
+            type: "POST",
+            data: { 'level1': level1 },
+            url: "/ProductionlossDetails/Level2Check",
+            async: false,
+            success: function (data) {
+                if (data === "Enter LossCodeLevel2 Details") {
+                    $("#plantError").html('Please Enter LossCodeLevel1 Details');
+                    $("#btnSubmit").attr('disabled', 'disabled');
+                } else {
+                    $("#plantError").html('');
+                    $("#btnSubmit").removeAttr('disabled', 'disabled');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("", "There is some issue in network");
+            }
+        });
+        //}
+    });
+</script>
+<script>
+    $('#radio3').click(function () {
+        //function Level2Check() {
+        //var level1 = $("#LossCodesLevel").val();
+        //var level1 $("#LossCodesLevel").val(3);
+        var level1 = $("#Level1").val();
+        var level2 = $("#Level2").val();
+        if (level1 != "" && level2 != "") {
+            $.ajax({
+                type: "POST",
+                data: { 'level1': level1, 'level2': level2 },
+                url: "/ProductionlossDetails/Level3Check",
+                async: false,
+                success: function (data) {
+                    if (data === "Enter LossCodeLevel3 Details") {
+                        $("#plantError").html('Please Enter LosscodeLevel1 and LossCodeLevel2 Details');
+                        $("#btnSubmit").attr('disabled', 'disabled');
+                    } else {
+                        $("#plantError").html('');
+                        $("#btnSubmit").removeAttr('disabled', 'disabled');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("", "There is some issue in network");
+                }
+            });
+        }
+        //}
+    });
+</script>

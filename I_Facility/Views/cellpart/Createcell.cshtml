@@ -1,0 +1,151 @@
+﻿@model I_Facility.ServerModel.cellpartdetailsmodel
+@{
+    ViewBag.Title = "Create cell";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Cell Details</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        @using (Html.BeginForm("Createcell", "cellpart", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <form class="form-horizontal form-label-left" id="fromDiv" novalidate>
+                                <div class="control-group" id="fields">
+                                    <div class="controls">
+                                        <div class="row row-space">
+                                            <label class="col-sm-5 control-label">Plant Name</label>
+                                            <div class="col-sm-6">
+                                                @Html.DropDownList("Plant", null, "--Select Plant--", new { @id = "Plant", @class = "form-control Plant", @name = "Plant", @required = "required", @style = "aria-expanded:false;width:89.7%", @value = "@ViewData['Plant']" })
+                                            </div>
+                                        </div>
+                                        <div class="row row-space">
+                                            <label class="col-sm-5 control-label">Shop Name</label>
+                                            <div class="col-sm-6">
+                                                @Html.DropDownList("shop", null, "--Select Shop--", new { @id = "shop", @class = "form-control", @name = "dept", @required = "required", @style = "aria-expanded:false;width:89.7%", @value = "@ViewData['shop']" })
+                                            </div>
+                                        </div>
+                                        <div class="row row-space">
+                                            <label class="col-sm-5 control-label">Cell name</label>
+                                            <div class="col-sm-6">
+                                                @Html.TextBoxFor(model => model.cell.CellName, new { @id = "Editcellname", @class = "form-control", style = "width:89.7%", @placeholder = "Enter Cell Name", @required = "required", @onchange = "cellNameCheck();", @oninput = "cellNameCheck();" })
+                                                @Html.HiddenFor(model => model.cell.CellName, new { @id = "cellname" })
+                                                <span id="errorMessage" style="color:red"></span>
+                                            </div>
+                                            <div class="col-sm-5">
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <span id="plantError" class="errorMessage"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row row-space">
+                                            <label class="col-sm-5 control-label">Cell Discription</label>
+                                            <div class="col-sm-6">
+                                                @Html.TextBoxFor(model => model.cell.CellDesc, new { @id = "Editcelldesc", @class = "form-control", style = "width:89.7%", @placeholder = "Enter Cell Description", @required = "required" })
+                                                @Html.HiddenFor(model => model.cell.CellDesc, new { @id = "celldesc" })
+                                            </div>
+                                        </div>
+                                        <div class="row row-space">
+                                            <label class="col-sm-5 control-label">Cell Display Name</label>
+                                            <div class="col-sm-6">
+                                                @Html.TextBoxFor(model => model.cell.CelldisplayName, new { @id = "Editcelldesp", @class = "form-control", style = "width:89.7%", @placeholder = "Enter Cell Display Name", @required = "required" })
+                                                @Html.HiddenFor(model => model.cell.CelldisplayName, new { @id = "celldisplayname" })
+                                            </div>
+                                        </div>
+                                        <div class="row row-space">
+                                            <label class="col-sm-5 control-label">No Of Model</label>
+                                            <div class="col-sm-6">
+                                                @Html.TextBoxFor(model => model.cell.NoOfModel, new { @id = "Editnoofmodel", @class = "form-control", style = "width:89.7%", @placeholder = "Enter No Of Model", @required = "required" })
+                                                @Html.HiddenFor(model => model.cell.NoOfModel, new { @id = "noofmodel" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="generate-btn">
+                                    <a id="" href="/cellpart/Index" type="submit" class="btn btn-new"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</a>
+                                    <button type="submit" id="btnSubmit" class="btn btn-new float-right btnSubmit"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Save</button>
+
+                                </div>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery-2.1.4.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#shop").empty();
+        $("#shop").append("<option value=''> --Select Shop-- </option>");
+        $("#Plant").on("change", function (e) {
+            var PID = $(this).val();
+            $.getJSON("/BottelNeckMachine/FetchShop", { PID: PID }, function (data) {
+                $("#shop").empty();
+                $("#shop").append("<option value=''> --Select shop-- </option>");
+                $.each(data, function (index, item) {
+                    $("#shop").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                });
+            });
+        });
+    });
+</script>
+
+@if (TempData["Message"] != null)
+{
+    <input type="hidden" id="Message" value="@TempData["Message"]" />
+    <script type="text/javascript">
+        $(function () {
+            var message = $("#Message").val();
+            if (message !== "") {
+                $("#errorMessage").html(message);
+
+
+            }
+        });
+    </script>
+}
+    <script>
+        function cellNameCheck() {
+            var cellName = $("#Editcellname").val();
+            $.ajax({
+                type: "POST",
+                data: { 'cellName': cellName },
+                url: "/cellpart/CellNameDuplicateCheck",
+                async: false,
+                success: function (data) {
+                    if (data === "notok") {
+                        $("#plantError").html('Cell already exists');
+                        $("#btnSubmit").attr('disabled', 'disabled');
+                    } else {
+                        $("#plantError").html('');
+                        $("#btnSubmit").removeAttr('disabled', 'disabled');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("", "There is some issue in network");
+                }
+            });
+        }
+    </script>
+

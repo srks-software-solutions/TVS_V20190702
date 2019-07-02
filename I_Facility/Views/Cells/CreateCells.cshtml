@@ -1,0 +1,197 @@
+﻿@model I_Facility.ServerModel.CellsModel
+@{
+    ViewBag.Title = "CreateCells";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Create Cell Details</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        @using (Html.BeginForm("CreateCells", "Cells", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <form class="form-horizontal form-label-left" id="fromDiv" novalidate>
+                                <div class="control-group" id="fields">
+                                    <div class="controls">
+
+                                        <div class="form">
+                                            <div class="entry input-group col-sm-12">
+                                                <div class="item form-group">
+                                                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Plant Name</label>
+                                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                                        @Html.HiddenFor(model => model.Cells.PlantID, new { @id = "PlantID" })
+                                                        @Html.DropDownList("Plant", null, "--Select Plant--", new { @id = "PlantID", @class = "form-control Plant", @name = "Plant", @required = "required", @style = "aria-expanded:false;width:89.7%", @value = "@ViewData['Plant']" })
+                                                        @*<input type="text" id="" name="" placeholder="Reason" class="form-control1">*@
+                                                    </div>
+                                                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Shop Name</label>
+                                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                                        @Html.HiddenFor(model => model.Cells.ShopID, new { @id = "ShopID" })
+                                                        @Html.DropDownList("shop", null, "--Select Department--", new { @id = "Editdeptid", @class = "form-control", @name = "dept", @required = "required", @style = "aria-expanded:false;width:89.7%", @value = "@ViewData['shop']" })
+                                                        @*<input type="time" name="" id="" class="form-control1">*@
+                                                    </div>
+                                                    
+                                                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Cell Name</label>
+                                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                                        @Html.HiddenFor(model => model.Cells.CellID, new { @id = "CellID" })
+                                                        @Html.TextBoxFor(model => model.Cells.CellName, new { @id = "CellName", @class = "form-control", @name = "Cell Name", style = "width:89.7%", @placeholder = "Enter Cell Name", @required = "required", @onchange = "cellNameCheck();", @oninput = "cellNameCheck();" })
+                                                        @*<input type="time" name="" id="" class="form-control1">*@
+                                                    </div>
+                                                    <br />
+                                                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Cell Description</label>
+                                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                                        @Html.TextBoxFor(model => model.Cells.CellDesc, new { @id = "CellDesc", @class = "form-control", @name = "Cell Desc", style = "width:89.7%", @placeholder = "Enter Cell Description", @required = "required" })
+                                                        @*<input type="time" name="" id="" class="form-control1">*@
+                                                    </div>
+                                                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Cell Display Name</label>
+                                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                                        @Html.TextBoxFor(model => model.Cells.CelldisplayName, new { @id = "Celldisplayname", @class = "form-control", @name = "Cell Display Name", style = "width:89.7%", @placeholder = "Enter Cell Displayname", @required = "required" })
+                                                        @*<input type="time" name="" id="" class="form-control1">*@
+                                                    </div>
+                                                    <label class="control-label col-md-1 col-sm-3 col-xs-12">No Of Model</label>
+                                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                                        @Html.TextBoxFor(model => model.Cells.NoofModel, new { @id = "NoOfModel", @class = "form-control", @name = "NoOfModel", style = "width:89.7%", @placeholder = "Enter NoOfModel", @required = "required" })
+                                                        @*<input type="time" name="" id="" class="form-control1">*@
+                                                    </div>
+                                                </div>
+                                                @*<span class="input-group-btn">
+                                                    <button class="btn btn-round btn-success btn-add" type="button" style="margin-top:-20px">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>*@
+
+
+                                            </div>
+                                        </div>
+                                        <div class="generate-btn">
+                                            <a id="" href="/Cells/CellsList" type="submit" class="btn btn-new"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</a>
+                                            <button type="submit" class="btn btn-new float-right"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Save</button>
+
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+
+                            </form>
+                        }
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /page content -->
+<script src="~/js/jquery-2.1.4.min.js"></script>
+@*<script type="text/javascript">
+    $(function () {
+        $(document).on('click', '.btn-add', function (e) {
+            alert(0)
+            e.preventDefault();
+
+            var controlForm = $('.controls .form'),
+                currentEntry = $(this).parents('.entry:first'),
+                newEntry = $(currentEntry.clone()).insertAfter(currentEntry);
+
+            newEntry.find('input').val('');
+            controlForm.find('.entry:not(:last) .btn-add')
+                .removeClass('btn-add').addClass('btn-remove')
+                .removeClass('btn-success').addClass('btn-danger')
+                .html('<span class="glyphicon glyphicon-minus"></span>');
+        }).on('click', '.btn-remove', function (e) {
+            $(this).parents('.entry:first').remove();
+
+            e.preventDefault();
+            return false;
+        });
+    });
+</script>*@
+
+    @*$(".Plant").on("change", function (e) {
+     var PID = $(this).val();
+     $.getJSON("/Cells/FetchDept", { PID: PID }, function (data) {
+       $(".Editdeptid").empty();
+         $(".Editdeptid").append("<option value = ''> --Select Department-- </option>")
+          $.each(data, function (index, item) {
+            $(".Editdeptid").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
+      });
+     });
+    });*@
+    @*<script>
+        $(document).ready(function () {
+            $("#PlantID").on("change", function (e) {
+                var PID = $(this).val();
+                $.getJSON("/Cells/FetchDept", { PID: PID }, function (data) {
+                    $("#Editdeptid").empty();
+                    $("#Editdeptid").append("<option value = ''> --Select Department-- </option>");
+                    $.each(data, function (index, item) {
+                        $("#Editdeptid").append("<option value = '" + item.Value + "'>" + item.Text + "</option>");
+                    });
+                });
+            });
+</script>*@
+
+<script>
+    $(document).ready(function () {
+        $("#PlantID").on("change", function (e) {
+
+            var PID = $(this).val();
+            $.getJSON("/BottelNeckMachine/FetchShop", { PID: PID }, function (data) {
+                $("#Editdeptid").empty();
+                $("#Editdeptid").append("<option value=''> --Select Department-- </option>");
+                $.each(data, function (index, item) {
+                    $("#Editdeptid").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                });
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#CellName').change(function () {
+            var val = $('#CellName').val();
+            $('#Celldisplayname').val(val);
+        });
+    });
+</script>
+
+<script>
+    function cellNameCheck() {
+        var cellName = $("#CellName").val();
+        var PlantID = $("#PlantID").val();
+        var shopId = $("#DepartmentID").val();
+        $.ajax({
+            type: "POST",
+            data: { 'plantID': PlantID, 'shopId': shopId, 'cellName': cellName },
+            url: "/Cells/CellNameDuplicateCheck",
+            async: false,
+            success: function (data) {
+                if (data === "notok") {
+                    $("#plantError").html('Cell already exists');
+                    $("#btnSubmit").attr('disabled', 'disabled');
+                } else {
+                    $("#plantError").html('');
+                    $("#btnSubmit").removeAttr('disabled', 'disabled');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("", "There is some issue in network");
+            }
+        });
+    }
+</script>
